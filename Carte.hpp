@@ -9,11 +9,18 @@ class CarteRoyaume;
 class Carte
 {
 private:
-	string nom;
-	int prix;
+protected:
+	string name;
+	int price;
 
 public:
 	virtual void affiche() = 0; /* Ne pas oublier de la redéfinir dans les ss-classes pour qu'elles ne soient pas abstraites aussi */
+	Carte(string name, int price);
+	Carte(int price);
+	virtual ~Carte() { delete this; };
+	virtual int getPrice() { return price; };
+	virtual string getName() const { return name; };
+	virtual string getLowerCuttedName() const;
 };
 
 #endif

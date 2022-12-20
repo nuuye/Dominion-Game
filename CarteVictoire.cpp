@@ -3,7 +3,14 @@
 #include <string>
 using namespace std;
 
-void CarteVictoire::affiche()
+// void CarteVictoire::affiche() override
+// {
+// 	std::cout << "";
+// }
+
+CarteVictoire::CarteVictoire(string name, int points, int price) : Carte(price)
 {
-	std::cout << "Give one more number: ";
+	this->name = name;
+	this->points = points;
+	this->price = price;
 }
