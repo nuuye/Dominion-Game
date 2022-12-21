@@ -44,6 +44,7 @@ public:
 	void ajouteCarteMain(Carte *carte);
 	void ajouteCartePioche(Carte *carte);
 	void ajouteCarteDefausse(Carte *carte);
+	void ajouteCarteDefausse(string cardName);
 	void acheteCarte(Carte *carte, int additionalMoney);
 	void afficheCartes();
 	void piocheCarte();

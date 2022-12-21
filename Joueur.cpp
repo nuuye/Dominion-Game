@@ -194,6 +194,18 @@ void Joueur::ajouteCarteDefausse(Carte *carte)
     defausse.push_back(carte);
 }
 
+// void Joueur::ajouteCarteDefausse(string cardName){
+//     if(isupper(cardName[0])){
+//         cardName[0] = tolower(cardName[0]);
+//     }
+//     for(const auto& carte : hand){
+//         if(cardName == carte->getLowerCuttedName()){
+//             this->ajouteCarteDefausse(carte);
+
+//         }
+//     }
+// }
+
 void Joueur::afficheCartes()
 {
     for (const auto &carte : hand)
