@@ -37,6 +37,8 @@ public:
 	int getHandSize();
 	int getDefausseSize();
 	vector<Carte *> getHand();
+	vector<Carte *> getDefausse();
+	int getVictoryPointsAmount();
 
 	void supprimeCarteMain(string CardToDelete);
 	void defausseToPioche();
@@ -44,7 +46,6 @@ public:
 	void ajouteCarteMain(Carte *carte);
 	void ajouteCartePioche(Carte *carte);
 	void ajouteCarteDefausse(Carte *carte);
-	void ajouteCarteDefausse(string cardName);
 	void acheteCarte(Carte *carte, int additionalMoney);
 	void afficheCartes();
 	void piocheCarte();

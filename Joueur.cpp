@@ -53,6 +53,11 @@ vector<Carte *> Joueur::getHand()
     return hand;
 }
 
+vector<Carte *> Joueur::getDefausse()
+{
+    return defausse;
+}
+
 int Joueur::getVictoryPoints()
 {
     return victoryPoints;
@@ -88,6 +93,17 @@ int Joueur::getDefausseSize()
     return this->defausse.size();
 }
 
+int Joueur::getVictoryPointsAmount()
+{
+    int count = 0;
+    for(const auto& carte : defausse){
+        if(typeid(carte) == typeid(CarteTresor)){
+            count += carte->getPrice();
+        }
+    }
+    return count;
+}
+
 bool Joueur::possedeCarte(string cardName)
 {
     bool contain = false;
@@ -102,7 +118,7 @@ bool Joueur::possedeCarte(string cardName)
 }
 void Joueur::supprimeCarteMain(string cardToDelete)
 {
-    //cardToDelete[0] = toupper(cardToDelete[0]);
+    // cardToDelete[0] = toupper(cardToDelete[0]);
     auto it = std::find_if(this->hand.begin(), this->hand.end(), [cardToDelete](const auto &carte)
                            { return dynamic_cast<Carte *>(carte) != nullptr && carte->getName() == cardToDelete; });
     if (it != this->hand.end())

@@ -89,7 +89,7 @@ int main()
         // On génère un nombre aléatoire pour savoir qui commence
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(1, 1);
+        std::uniform_int_distribution<> dis(1, 2);
         static int joueurQuiCommence = dis(gen);
 
         if (joueurQuiCommence == 1)
@@ -365,7 +365,8 @@ int main()
 
                                                                 for (const auto &carte : joueur_1->getHand())
                                                                 {
-                                                                        if (cardToDelete == carte->getLowerCuttedName() && (carte->getName() == "Cuivre(0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"))
+                                                                        if (cardToDelete == carte->getLowerCuttedName() && typeid(carte) == typeid(CarteTresor))
+                                                                        //(carte->getName() == "Cuivre(0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)")
                                                                         {
                                                                                 plateau->rebus.push_back(carte);
                                                                                 cardPrice = carte->getPrice();
@@ -404,8 +405,8 @@ int main()
                                                                         if (cardToGet == carte.first->getLowerCuttedName() && typeid(carte) == typeid(CarteTresor) && carte.first->getPrice() <= finalCardPrice)
                                                                         {
 
-                                                                                joueur_1->ajouteCarteMain(carte);
-                                                                                plateau->removeCard(carte);
+                                                                                joueur_1->ajouteCarteMain(carte.first);
+                                                                                plateau->removeCard(carte.first);
                                                                                 cardFound = true;
                                                                         }
                                                                 }
@@ -517,8 +518,8 @@ int main()
                                                                         if (cardToGet == carte.first->getLowerCuttedName())
                                                                         {
 
-                                                                                joueur_1->ajouteCarteDefausse(carte);
-                                                                                plateau->removeCard(carte);
+                                                                                joueur_1->ajouteCarteDefausse(carte.first);
+                                                                                plateau->removeCard(carte.first);
                                                                                 cardFound = true;
                                                                         }
                                                                 }
@@ -616,6 +617,7 @@ int main()
                 else
                 {
                         int additionalMoney = 0;
+                        bool canReceiveFreeCard = false;
                         if (joueur_2->getPiocheSize() < 5)
                         {
                                 joueur_2->defausseToPioche();
@@ -633,7 +635,395 @@ int main()
                         {
                                 if (choix_J2 == 1)
                                 {
+                                        if (joueur_2->getActions() >= 1 || canReceiveFreeCard)
+                                        {
+                                                std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                joueur_2->afficheCartes();
+                                                string cardToPlay;
+                                                std::cout << "➡️ Quelle carte action voulez vous jouer ?" << std::endl;
+                                                std::cin >> cardToPlay;
+                                                std::transform(cardToPlay.begin(), cardToPlay.end(), cardToPlay.begin(), ::tolower);
+
+                                                if (cardToPlay == cave->getLowerCuttedName() && joueur_2->possedeCarte(cave->getName()))
+                                                {
+                                                        // +1 Action et défausse autant de cartes / +1pioche par defausse
+                                                        joueur_2->ajouteCarteDefausse(cave);
+                                                        cardToPlay = cardToPlay + " (" + to_string(cave->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        std::cout << "➡️ Vous gagnez +1 Action et vous pouvez défausse autant de carte que vous voulez. Piochez une carte par carte défaussée" << std::endl;
+                                                        int numberToThrow = 0;
+                                                        int i = 0;
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "➡️ Combien de cartes voulez vous défausser? " << std::endl;
+                                                        std::cin >> numberToThrow;
+                                                        while (i < numberToThrow)
+                                                        {
+                                                                string cardToMove;
+                                                                bool cardFound = false;
+                                                                std::cout << "➡️ Quel est le nom de la carte que vous voulez défausser ?" << std::endl;
+                                                                std::cin >> cardToMove;
+                                                                cardToMove[0] = tolower(cardToMove[0]);
+
+                                                                for (const auto &carte : joueur_2->getHand())
+                                                                {
+                                                                        if (cardToMove == carte->getLowerCuttedName())
+                                                                        {
+                                                                                joueur_2->ajouteCarteDefausse(carte);
+                                                                                cardToMove = cardToMove + " (" + to_string(carte->getPrice()) + "💰)";
+                                                                                cardToMove[0] = toupper(cardToMove[0]);
+                                                                                joueur_2->supprimeCarteMain(cardToMove);
+                                                                                cardFound = true;
+                                                                        }
+                                                                }
+                                                                if (!cardFound)
+                                                                {
+                                                                        std::cout << "❌ La carte n'est pas dans votre main ou est mal orthographiée. Veuillez réessayer" << std::endl;
+                                                                        i -= 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                        std::cout << "➡️ La carte " << cardToMove << " a été mise dans la défausse et n'est plus dans votre main" << std::endl;
+                                                                }
+                                                                i += 1;
+                                                        }
+                                                        for (int i; i < numberToThrow; i++)
+                                                        {
+                                                                joueur_2->piocheCarte();
+                                                        }
+                                                        std::cout << "Vous avez pioché " << numberToThrow << " carte(s)\n"
+                                                                  << std::endl;
+
+                                                        std::cout << "➡️ Vous possédez désormais les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == renovation->getLowerCuttedName() && joueur_2->possedeCarte(renovation->getName()))
+                                                {
+                                                        joueur_2->ajouteCarteDefausse(renovation);
+                                                        cardToPlay = cardToPlay + " (" + to_string(renovation->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        int numberToDelete = 1;
+                                                        int i = 0;
+                                                        // écarte une carte de la main, reçoit une carte jusqu'à +2 que la carte écartée
+                                                        std::cout << "➡️ Ecartez une carte de votre main et recevez une carte coûtant jusqu'à +2💰 que le coût de votre carte" << std::endl;
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        int cardPrice = 0;
+                                                        while (i < numberToDelete)
+                                                        {
+                                                                string cardToDelete;
+                                                                bool cardFound = false;
+                                                                std::cout << "➡️ Quel est le nom de la carte que vous voulez écarter ?" << std::endl;
+                                                                std::cin >> cardToDelete;
+                                                                cardToDelete[0] = tolower(cardToDelete[0]);
+
+                                                                for (const auto &carte : joueur_2->getHand())
+                                                                {
+                                                                        if (cardToDelete == carte->getLowerCuttedName())
+                                                                        {
+                                                                                plateau->rebus.push_back(carte);
+                                                                                cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
+                                                                                cardToDelete[0] = toupper(cardToDelete[0]);
+                                                                                joueur_2->supprimeCarteMain(cardToDelete);
+                                                                                cardFound = true;
+                                                                                cardPrice += carte->getPrice();
+                                                                        }
+                                                                }
+                                                                if (!cardFound)
+                                                                {
+                                                                        std::cout << "❌ La carte n'est pas dans votre main ou est mal orthographiée. Veuillez réessayer" << std::endl;
+                                                                        i -= 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                        std::cout << "➡️ La carte " << cardToDelete << " a été mise dans le rebus et n'est plus dans votre main" << std::endl;
+                                                                }
+                                                                i += 1;
+                                                        }
+                                                        canReceiveFreeCard = true;
+                                                        additionalMoney = additionalMoney + cardPrice + 2;
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        joueur_2->setBuyPoints(joueur_2->getBuyPoints() + 1);
+                                                        choix_J1 = 2;
+                                                }
+                                                else if (cardToPlay == sorciere->getLowerCuttedName() && joueur_2->possedeCarte(sorciere->getName()))
+                                                {
+                                                        // Ajoute une carte malédiction dans la défausse de l'adversaire
+                                                        joueur_2->ajouteCarteDefausse(sorciere);
+                                                        cardToPlay = cardToPlay + " (" + to_string(sorciere->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        joueur_1->ajouteCarteDefausse(malediction);
+                                                        plateau->reserve[malediction]--;
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
+                                                        std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == marche->getLowerCuttedName() && joueur_2->possedeCarte(marche->getName()))
+                                                {
+                                                        // Octroie 1 point d'action, 1 carte, 1 pièce de cuivre et 1 achat
+                                                        joueur_2->ajouteCarteDefausse(marche);
+                                                        cardToPlay = cardToPlay + " (" + to_string(marche->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        joueur_2->setBuyPoints(joueur_2->getBuyPoints() + 1);
+                                                        joueur_2->piocheCarte();
+                                                        additionalMoney += 1;
+                                                        std::cout << "➡️ Vous gagnez +1 Carte, +1💠 Action, +1💰 Pièce et +1🪙  Achat" << std::endl;
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "Vous avez : " << joueur_2->getMoney() << "💰 (+" << additionalMoney << ")|" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠" << std::endl;
+                                                        std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == forgeron->getLowerCuttedName() && joueur_2->possedeCarte(forgeron->getName()))
+                                                {
+                                                        // Pioche 3 cartes
+                                                        joueur_2->ajouteCarteDefausse(forgeron);
+                                                        cardToPlay = cardToPlay + " (" + to_string(forgeron->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        for (int i; i <= 2; i++)
+                                                        {
+                                                                joueur_2->piocheCarte();
+                                                        }
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == bucheron->getLowerCuttedName() && joueur_2->possedeCarte(bucheron->getName()))
+                                                {
+                                                        // +1 Achat et 2 pièces pour le tour
+                                                        joueur_2->ajouteCarteDefausse(bucheron);
+                                                        cardToPlay = cardToPlay + " (" + to_string(bucheron->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        joueur_2->setBuyPoints(joueur_2->getBuyPoints() + 1);
+                                                        additionalMoney += 2;
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        std::cout << "➡️ Vous gagnez +1 Achat et 2 pièces \n"
+                                                                  << std::endl;
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "Vous avez : " << joueur_2->getMoney() << "💰 (+" << additionalMoney << ")|" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠" << std::endl;
+                                                        std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J2;
+                                                }
+                                                else if (cardToPlay == mine->getLowerCuttedName() && joueur_2->possedeCarte(mine->getName()))
+                                                {
+                                                        // écarte une carte trésor de la main, reçoit une carte trésor valant jusqu'à +3. Ajoute cette carte à notre main
+                                                        joueur_2->ajouteCarteDefausse(mine);
+                                                        cardToPlay = cardToPlay + " (" + to_string(mine->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        int numberToDelete = 1;
+                                                        int i = 0;
+                                                        int cardPrice = 0;
+                                                        std::cout << "➡️ Ecartez une carte trésor de votre main pour en recevoir une coûtant 3💰 de plus" << std::endl;
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        while (i < numberToDelete)
+                                                        {
+                                                                string cardToDelete;
+                                                                bool cardFound = false;
+                                                                std::cout << "➡️ Quel est le nom de la carte trésor que vous voulez écarter ?" << std::endl;
+                                                                std::cin >> cardToDelete;
+                                                                cardToDelete[0] = tolower(cardToDelete[0]);
+
+                                                                for (const auto &carte : joueur_2->getHand())
+                                                                {
+                                                                        if (cardToDelete == carte->getLowerCuttedName() && (carte->getName() == "Cuivre(0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"))
+                                                                        {
+                                                                                plateau->rebus.push_back(carte);
+                                                                                cardPrice = carte->getPrice();
+                                                                                cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
+                                                                                cardToDelete[0] = toupper(cardToDelete[0]);
+                                                                                joueur_2->supprimeCarteMain(cardToDelete);
+                                                                                cardFound = true;
+                                                                        }
+                                                                }
+                                                                if (!cardFound)
+                                                                {
+                                                                        std::cout << "❌ La carte n'est pas dans votre main ou est mal orthographiée ou n'est pas une carte trésor. Veuillez réessayer" << std::endl;
+                                                                        i -= 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                        std::cout << "➡️ La carte " << cardToDelete << " a été mise dans le rebus et n'est plus dans votre main" << std::endl;
+                                                                }
+                                                                i += 1;
+                                                        }
+                                                        std::cout << "➡️ Vous pouvez désormais acquérir une carte trésor valant jusqu'à : " << cardPrice << "💰" << std::endl;
+                                                        std::cout << "➡️ Le plateau possède les cartes suivantes : " << std::endl;
+                                                        plateau->affichePlateau();
+                                                        int finalCardPrice = cardPrice + 3;
+                                                        int it = 1;
+                                                        int j = 0;
+                                                        while (j < it)
+                                                        {
+                                                                string cardToGet;
+                                                                bool cardFound = false;
+                                                                std::cout << "➡️ Quelle carte voulez vous acquérir ? ( jusqu'à " << finalCardPrice << "💰)" << std::endl;
+                                                                std::cin >> cardToGet;
+
+                                                                for (const auto &carte : plateau->reserve)
+                                                                {
+                                                                        if (cardToGet == carte.first->getLowerCuttedName() && typeid(carte) == typeid(CarteTresor) && carte.first->getPrice() <= finalCardPrice)
+                                                                        {
+
+                                                                                joueur_2->ajouteCarteMain(carte.first);
+                                                                                plateau->removeCard(carte.first);
+                                                                                cardFound = true;
+                                                                        }
+                                                                }
+                                                                if (!cardFound)
+                                                                {
+                                                                        std::cout << "❌ La carte n'est pas dans la reserve ou est mal orthographiée ou est trop coûteuse. Veuillez réessayer" << std::endl;
+                                                                        j -= 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                        std::cout << "➡️ La carte " << cardToGet << " a été mise dans votre main" << std::endl;
+                                                                }
+                                                                j += 1;
+                                                        }
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == village->getLowerCuttedName() && joueur_2->possedeCarte(village->getName()))
+                                                {
+                                                        // Octroie 2 points d'action et 1 carte
+                                                        joueur_2->ajouteCarteDefausse(village);
+                                                        cardToPlay = cardToPlay + " (" + to_string(village->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        joueur_2->setActions(joueur_2->getActions() + 2);
+                                                        std::cout << "➡️ Vous gagnez +1 Carte et +2💠 Actions" << std::endl;
+                                                        joueur_2->piocheCarte();
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "Vous avez : " << joueur_2->getMoney() << "💰|" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠" << std::endl;
+                                                        std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == chapelle->getLowerCuttedName() && joueur_2->possedeCarte(chapelle->getName()))
+                                                {
+                                                        // Place jusqu'à 4 cartes dans le rebus
+                                                        joueur_2->ajouteCarteDefausse(chapelle);
+                                                        cardToPlay = cardToPlay + " (" + to_string(chapelle->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+                                                        int numberToDelete;
+                                                        int i = 0;
+                                                        std::cout << "➡️ Vous pouvez écarter jusqu'à 4 cartes de votre main" << std::endl;
+                                                        std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "➡️ Combien de carte voulez vous écarter ? ";
+                                                        std::cin >> numberToDelete;
+                                                        while (i < numberToDelete)
+                                                        {
+                                                                string cardToDelete;
+                                                                bool cardFound = false;
+                                                                std::cout << "➡️ Quel est le nom de la carte que vous voulez écarter ?" << std::endl;
+                                                                std::cin >> cardToDelete;
+                                                                cardToDelete[0] = tolower(cardToDelete[0]);
+
+                                                                for (const auto &carte : joueur_2->getHand())
+                                                                {
+                                                                        if (cardToDelete == carte->getLowerCuttedName())
+                                                                        {
+                                                                                plateau->rebus.push_back(carte);
+                                                                                cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
+                                                                                cardToDelete[0] = toupper(cardToDelete[0]);
+                                                                                joueur_2->supprimeCarteMain(cardToDelete);
+                                                                                cardFound = true;
+                                                                        }
+                                                                }
+                                                                if (!cardFound)
+                                                                {
+                                                                        std::cout << "❌ La carte n'est pas dans votre main ou est mal orthographiée. Veuillez réessayer" << std::endl;
+                                                                        i -= 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                        std::cout << "➡️ La carte " << cardToDelete << " a été mise dans le rebus et n'est plus dans votre main" << std::endl;
+                                                                }
+                                                                i += 1;
+                                                        }
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        std::cout << "➡️ Vous possédez désormais les cartes : " << std::endl;
+                                                        joueur_2->afficheCartes();
+                                                        std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                                else if (cardToPlay == atelier->getLowerCuttedName() && joueur_2->possedeCarte(atelier->getName()))
+                                                {
+                                                        // Recoit une carte allant jusqu'a 4
+                                                        joueur_2->ajouteCarteDefausse(atelier);
+                                                        cardToPlay = cardToPlay + " (" + to_string(atelier->getPrice()) + "💰)";
+                                                        joueur_2->supprimeCarteMain(cardToPlay);
+
+                                                        std::cout << "➡️ Vous pouvez acheter gratuitement une carte allant jusqu'à 4💰 \n"
+                                                                  << std::endl;
+                                                        std::cout << "➡️ Le plateau possède les cartes suivantes : " << std::endl;
+                                                        plateau->affichePlateau();
+
+                                                        int numberToGet = 1;
+                                                        int i = 0;
+                                                        while (i < numberToGet)
+                                                        {
+                                                                string cardToGet;
+                                                                bool cardFound = false;
+                                                                std::cout << "➡️ Quelle carte voulez vous acquérir ? (0 à 4💰)" << std::endl;
+                                                                std::cin >> cardToGet;
+                                                                cardToGet[0] = tolower(cardToGet[0]);
+                                                                for (const auto &carte : plateau->reserve)
+                                                                {
+                                                                        if (cardToGet == carte.first->getLowerCuttedName())
+                                                                        {
+
+                                                                                joueur_2->ajouteCarteDefausse(carte.first);
+                                                                                plateau->removeCard(carte.first);
+                                                                                cardFound = true;
+                                                                        }
+                                                                }
+                                                                if (!cardFound)
+                                                                {
+                                                                        std::cout << "❌ La carte n'est pas dans la reserve ou est mal orthographiée. Veuillez réessayer" << std::endl;
+                                                                        i -= 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                        std::cout << "➡️ La carte " << cardToGet << " a été mise dans votre défausse" << std::endl;
+                                                                }
+                                                                i += 1;
+                                                        }
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
+                                                }
+                                                else
+                                                {
+                                                        std::cout << "❌ Vous avez mal orthographié votre carte ou vous ne la possédez pas, veuillez réessayer." << std::endl;
+                                                        std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
+                                                }
+                                        }
+                                        else
+                                        {
+                                                std::cout << "Vous n'avez pas assez de point d'action (💠)" << std::endl;
+                                                std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                std::cin >> choix_J1;
+                                        }
                                 }
+
                                 else if (choix_J2 == 2)
                                 {
                                         if (joueur_2->getBuyPoints() >= 1)
@@ -711,5 +1101,33 @@ int main()
         //         Carte *carte = it->first;
         //         delete carte;
         // }
+        std::cout << "                                                🕯️  La partie est terminée 🕯️ \n"
+                  << std::endl;
+        if (count > 2 || plateau->reserve[province] <= 0)
+        {
+                joueur_1->HandToDefausse();
+                joueur_2->HandToDefausse();
+                std::cout << "🥁" << std::endl;
+                std::cout << "🥁" << std::endl;
+                std::cout << "🥁\n"
+                          << std::endl;
+
+                std::cout << "Le joueur 1 🤴 possède : " << joueur_1->getVictoryPointsAmount() << "⚔️ point(s) de victoire(s).\n"
+                          << std::endl;
+                std::cout << "Le joueur 2 🧙‍♂️ possède : " << joueur_2->getVictoryPointsAmount() << "⚔️ point(s) de victoire(s)." << std::endl;
+
+                if (joueur_1->getVictoryPointsAmount() > joueur_2->getVictoryPointsAmount())
+                {
+                        std::cout << "Le joueur 1 🤴 gagne la partie" << std::endl;
+                }
+                else if (joueur_1->getVictoryPointsAmount() < joueur_2->getVictoryPointsAmount())
+                {
+                        std::cout << "Le joueur 2 🧙‍♂️ gagne la partie" << std::endl;
+                }
+                else
+                {
+                        std::cout << "Il y a égalité 🎌" << std::endl;
+                }
+        }
         return 0;
 }
