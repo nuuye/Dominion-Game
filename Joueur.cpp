@@ -96,8 +96,10 @@ int Joueur::getDefausseSize()
 int Joueur::getVictoryPointsAmount()
 {
     int count = 0;
-    for(const auto& carte : defausse){
-        if(typeid(carte) == typeid(CarteTresor)){
+    for (const auto &carte : defausse)
+    {
+        if (typeid(carte) == typeid(CarteTresor))
+        {
             count += carte->getPrice();
         }
     }
@@ -126,6 +128,17 @@ void Joueur::supprimeCarteMain(string cardToDelete)
         this->hand.erase(it);
     }
 }
+
+void Joueur::supprimeCartePioche(string cardToDelete)
+{
+    auto it = std::find_if(this->pioche.begin(), this->pioche.end(), [cardToDelete](const auto &carte)
+                           { return dynamic_cast<Carte *>(carte) != nullptr && carte->getName() == cardToDelete; });
+    if (it != this->pioche.end())
+    {
+        this->pioche.erase(it);
+    }
+}
+
 void Joueur::acheteCarte(Carte *carte, int additionalMoney)
 {
     if (this->money + additionalMoney >= carte->getPrice() && this->buyPoints >= 1)
@@ -232,12 +245,23 @@ void Joueur::afficheCartes()
               << std::endl;
 }
 
+void Joueur::afficheDefause()
+{
+    std::cout << "🧾 La défausse contient les cartes suivantes : " << std::endl;
+    for (const auto &carte : defausse)
+    {
+        std::cout << carte->getName() << "| ";
+    }
+    std::cout << std::endl;
+}
+
 void Joueur::piocheCarte()
 {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, pioche.size() - 1);
     int indice = dis(gen);
+    std::cout << "🖲️  Vous avez pioché : " << pioche[indice]->getName() << std::endl;
     hand.push_back(pioche[indice]);
     if (pioche[indice]->getName() == "Cuivre (0💰)")
     {
@@ -251,5 +275,6 @@ void Joueur::piocheCarte()
     {
         this->money += 3;
     }
-    pioche.erase(pioche.begin() + indice);
+    // pioche.erase(pioche.begin() + indice);
+    this->supprimeCartePioche(pioche[indice]->getName());
 }

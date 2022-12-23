@@ -41,6 +41,7 @@ public:
 	int getVictoryPointsAmount();
 
 	void supprimeCarteMain(string CardToDelete);
+	void supprimeCartePioche(string cardToDelete);
 	void defausseToPioche();
 	void HandToDefausse();
 	void ajouteCarteMain(Carte *carte);
@@ -48,10 +49,9 @@ public:
 	void ajouteCarteDefausse(Carte *carte);
 	void acheteCarte(Carte *carte, int additionalMoney);
 	void afficheCartes();
+	void afficheDefause();
 	void piocheCarte();
 	bool possedeCarte(string cardName);
-
-	// melange pioche
 };
 
 #endif
