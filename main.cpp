@@ -747,7 +747,7 @@ int main()
                                                         additionalMoney = additionalMoney + cardPrice + 2;
                                                         joueur_2->setActions(joueur_2->getActions() - 1);
                                                         joueur_2->setBuyPoints(joueur_2->getBuyPoints() + 1);
-                                                        choix_J1 = 2;
+                                                        choix_J2 = 2;
                                                 }
                                                 else if (cardToPlay == sorciere->getLowerCuttedName() && joueur_2->possedeCarte(sorciere->getName()))
                                                 {
