@@ -534,6 +534,9 @@ int main()
                                                                 i += 1;
                                                         }
                                                         joueur_1->setActions(joueur_1->getActions() - 1);
+                                                        std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J1;
                                                 }
                                                 else
                                                 {
@@ -700,7 +703,7 @@ int main()
                                                         joueur_2->afficheCartes();
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == renovation->getLowerCuttedName() && joueur_2->possedeCarte(renovation->getName()))
                                                 {
@@ -761,7 +764,7 @@ int main()
                                                         std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == marche->getLowerCuttedName() && joueur_2->possedeCarte(marche->getName()))
                                                 {
@@ -777,14 +780,16 @@ int main()
                                                         std::cout << "Vous avez : " << joueur_2->getMoney() << "💰 (+" << additionalMoney << ")|" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠" << std::endl;
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == forgeron->getLowerCuttedName() && joueur_2->possedeCarte(forgeron->getName()))
                                                 {
                                                         // Pioche 3 cartes
                                                         joueur_2->ajouteCarteDefausse(forgeron);
+                                                        joueur_2->affichePioche();
+                                                        joueur_2->afficheDefause();
                                                         joueur_2->supprimeCarteMain(forgeron->getName());
-                                                        for (int i; i <= 2; i++)
+                                                        for (int i = 0; i <= 2; i++)
                                                         {
                                                                 joueur_2->piocheCarte();
                                                         }
@@ -793,7 +798,7 @@ int main()
                                                         joueur_2->afficheCartes();
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == bucheron->getLowerCuttedName() && joueur_2->possedeCarte(bucheron->getName()))
                                                 {
@@ -891,7 +896,7 @@ int main()
                                                         joueur_2->setActions(joueur_2->getActions() - 1);
                                                         std::cout << "➡️ Que voulez vous faire ?" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == village->getLowerCuttedName() && joueur_2->possedeCarte(village->getName()))
                                                 {
@@ -906,7 +911,7 @@ int main()
                                                         std::cout << "Vous avez : " << joueur_2->getMoney() << "💰 (+" << additionalMoney << ")|" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠" << std::endl;
                                                         std::cout << "➡️ Que voulez vous faire ?" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == chapelle->getLowerCuttedName() && joueur_2->possedeCarte(chapelle->getName()))
                                                 {
@@ -955,7 +960,7 @@ int main()
                                                         joueur_2->afficheCartes();
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else if (cardToPlay == atelier->getLowerCuttedName() && joueur_2->possedeCarte(atelier->getName()))
                                                 {
@@ -999,13 +1004,16 @@ int main()
                                                                 i += 1;
                                                         }
                                                         joueur_2->setActions(joueur_2->getActions() - 1);
+                                                        std::cout << "➡️ Que voulez vous faire ?" << std::endl;
+                                                        std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
+                                                        std::cin >> choix_J2;
                                                 }
                                                 else
                                                 {
                                                         std::cout << "❌ Vous avez mal orthographié votre carte ou vous ne la possédez pas, veuillez réessayer." << std::endl;
                                                         std::cout << "➡️ Que voulez vous faire ?" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                        std::cin >> choix_J1;
+                                                        std::cin >> choix_J2;
                                                 }
                                         }
                                         else
@@ -1013,7 +1021,7 @@ int main()
                                                 std::cout << "Vous n'avez pas assez de point d'action (💠)" << std::endl;
                                                 std::cout << "➡️ Que voulez vous faire ?" << std::endl;
                                                 std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
-                                                std::cin >> choix_J1;
+                                                std::cin >> choix_J2;
                                         }
                                 }
 

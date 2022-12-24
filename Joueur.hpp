@@ -50,6 +50,7 @@ public:
 	void acheteCarte(Carte *carte, int additionalMoney);
 	void afficheCartes();
 	void afficheDefause();
+	void affichePioche();
 	void piocheCarte();
 	bool possedeCarte(string cardName);
 };

@@ -126,6 +126,7 @@ void Joueur::supprimeCarteMain(string cardToDelete)
     if (it != this->hand.end())
     {
         this->hand.erase(it);
+        this->ajouteCarteDefausse(*it);
     }
 }
 
@@ -249,6 +250,16 @@ void Joueur::afficheDefause()
 {
     std::cout << "🧾 La défausse contient les cartes suivantes : " << std::endl;
     for (const auto &carte : defausse)
+    {
+        std::cout << carte->getName() << "| ";
+    }
+    std::cout << std::endl;
+}
+
+void Joueur::affichePioche()
+{
+    std::cout << "🧾 La pioche contient les cartes suivantes : " << std::endl;
+    for (const auto &carte : pioche)
     {
         std::cout << carte->getName() << "| ";
     }
