@@ -127,6 +127,8 @@ void Joueur::supprimeCarteMain(string cardToDelete)
     {
         this->hand.erase(it);
         this->ajouteCarteDefausse(*it);
+        std::cout << "JUST AFTER" << std::endl;
+        this->afficheDefause();
     }
 }
 
