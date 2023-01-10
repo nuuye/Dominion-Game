@@ -236,7 +236,9 @@ int main()
                                                         {
                                                                 joueur_1->piocheCarte();
                                                         }
+
                                                         joueur_1->setActions(joueur_1->getActions() - 1);
+                                                        
                                                         std::cout << "➡️ Vous avez pioché " << numberToThrow << " carte(s)\n"
                                                                   << std::endl;
 
@@ -299,10 +301,10 @@ int main()
                                                 else if (cardToPlay == sorciere->getLowerCuttedName() && joueur_1->possedeCarte(sorciere->getName()))
                                                 {
                                                         // Ajoute une carte malédiction dans la défausse de l'adversaire
-                                                        // joueur_1->ajouteCarteDefausse(sorciere);
                                                         joueur_1->supprimeCarteMain(sorciere->getName());
-
+                                                        //ajoute la carte malédiction dans la défausse de l'ennemi
                                                         joueur_2->ajouteCarteDefausse(malediction);
+                                                        
                                                         plateau->reserve[malediction]--;
                                                         joueur_1->setActions(joueur_1->getActions() - 1);
                                                         std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
@@ -744,7 +746,9 @@ int main()
                                                         {
                                                                 joueur_2->piocheCarte();
                                                         }
+
                                                         joueur_2->setActions(joueur_2->getActions() - 1);
+
                                                         std::cout << "➡️ Vous avez pioché " << numberToThrow << " carte(s)\n"
                                                                   << std::endl;
 
