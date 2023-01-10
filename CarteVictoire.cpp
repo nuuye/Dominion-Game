@@ -14,3 +14,8 @@ CarteVictoire::CarteVictoire(string name, int points, int price) : Carte(price)
 	this->points = points;
 	this->price = price;
 }
+
+// int CarteVictoire::getPoints() override
+// {
+// 	return points;
+// }

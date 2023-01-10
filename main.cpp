@@ -42,15 +42,15 @@ int main()
         Joueur *joueur_2 = new Joueur("Joueur 2");
 
         Plateau *plateau = new Plateau();
-        plateau->reserve[cave] = 5;
+        plateau->reserve[cave] = 1;
         plateau->reserve[renovation] = 5;
         plateau->reserve[sorciere] = 5;
         plateau->reserve[marche] = 5;
         plateau->reserve[forgeron] = 5;
-        plateau->reserve[bucheron] = 5;
+        plateau->reserve[bucheron] = 1;
         plateau->reserve[mine] = 5;
         plateau->reserve[village] = 5;
-        plateau->reserve[chapelle] = 5;
+        plateau->reserve[chapelle] = 1;
         plateau->reserve[atelier] = 5;
         // 8 cartes victoire par type et pour 2 joueurs
         plateau->reserve[domaine] = 8;
@@ -124,6 +124,10 @@ int main()
                         std::cout << "                                                🕯️  La partie commence 🕯️ " << std::endl;
                         std::cout << "-------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
                         plateau->affichePlateau();
+                        
+                        std::cout << "PROVINCE POINTS : "<< province->getPoints() << std::endl;
+                        std::cout << "PROVINCE DUCHE : "<< duche->getPoints() << std::endl;
+
                         std::cout << "Un nombre aléatoire est généré pour connaître le joueur qui commence :" << std::endl;
                         std::cout << "Le nombre généré est : " << joueurQuiCommence << std::endl;
                         if (joueur_1_Turn)
@@ -574,19 +578,23 @@ int main()
                                                 for (const auto &keyValue : plateau->reserve)
                                                 {
                                                         size_t found = keyValue.first->getName().find(' ');
-                                                        //On enlève le prix en string de la carte " (x💰)"
+                                                        // On enlève le prix en string de la carte " (x💰)"
                                                         string card = keyValue.first->getName().substr(0, found);
                                                         std::transform(card.begin(), card.end(), card.begin(), ::tolower);
                                                         std::transform(cardInput.begin(), cardInput.end(), cardInput.begin(), ::tolower);
 
                                                         if (cardInput.compare(card) == 0)
                                                         {
-                                                                joueur_1->acheteCarte(keyValue.first, additionalMoney);
-                                                                plateau->removeCard(keyValue.first);
-                                                                std::cout << "IN LOOOOOP : " << std::endl;
-                                                                joueur_1->afficheDefause();
-                                                                joueur_1->affichePioche();
-                                                                cardFound = true;
+                                                                if (keyValue.second > 0)
+                                                                {
+                                                                        if (joueur_1->acheteCarte(keyValue.first, additionalMoney))
+                                                                        {
+                                                                                plateau->removeCard(keyValue.first);
+                                                                        }
+                                                                        joueur_1->afficheDefause();
+                                                                        joueur_1->affichePioche();
+                                                                        cardFound = true;
+                                                                }
                                                         }
                                                 }
                                                 if (!cardFound)
@@ -1059,9 +1067,14 @@ int main()
 
                                                         if (cardInput.compare(card) == 0)
                                                         {
-                                                                joueur_2->acheteCarte(keyValue.first, additionalMoney);
-                                                                plateau->removeCard(keyValue.first);
-                                                                cardFound = true;
+                                                                if (keyValue.second > 0)
+                                                                {
+                                                                        if (joueur_2->acheteCarte(keyValue.first, additionalMoney))
+                                                                        {
+                                                                                plateau->removeCard(keyValue.first);
+                                                                        }
+                                                                        cardFound = true;
+                                                                }
                                                         }
                                                 }
                                                 if (!cardFound)
@@ -1122,14 +1135,17 @@ int main()
         {
                 joueur_1->HandToDefausse();
                 joueur_2->HandToDefausse();
+                joueur_1->defausseToPioche();
+                joueur_2->defausseToPioche();
+                std::cout << "TEST POINTS " << joueur_1->getVictoryPointsAmount() << std::endl;
                 std::cout << "🥁" << std::endl;
                 std::cout << "🥁" << std::endl;
                 std::cout << "🥁\n"
                           << std::endl;
 
-                std::cout << "Le joueur 1 🤴 possède : " << joueur_1->getVictoryPointsAmount() << "⚔️ point(s) de victoire(s).\n"
+                std::cout << "Le joueur 1 🤴 possède : " << joueur_1->getVictoryPointsAmount() << "⚔️  point(s) de victoire(s).\n"
                           << std::endl;
-                std::cout << "Le joueur 2 🧙‍♂️ possède : " << joueur_2->getVictoryPointsAmount() << "⚔️ point(s) de victoire(s)." << std::endl;
+                std::cout << "Le joueur 2 🧙‍♂️ possède : " << joueur_2->getVictoryPointsAmount() << "⚔️  point(s) de victoire(s)." << std::endl;
 
                 if (joueur_1->getVictoryPointsAmount() > joueur_2->getVictoryPointsAmount())
                 {

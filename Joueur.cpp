@@ -96,13 +96,20 @@ int Joueur::getDefausseSize()
 int Joueur::getVictoryPointsAmount()
 {
     int count = 0;
-    for (const auto &carte : defausse)
+    std::cout << "PIOCHE SIZE : " << this->getPiocheSize() << std::endl;
+    for (int i = 0; i < this->getPiocheSize(); i++)
     {
-        if (typeid(carte) == typeid(CarteTresor))
-        {
-            count += carte->getPrice();
-        }
+        count += 1;
+        //std::cout << "Points counter for each card" << pioche[i]->getName()<<" : " << pioche[i]->getPoints() << std::endl;
+        //count += pioche[i]->getPoints();
     }
+    // if (typeid(carte) == typeid(CarteVictoire))
+    // {
+    //     count += carte->getPoints();
+    // }
+    // count += carte->getPoints();
+    // count += 1;
+
     return count;
 }
 
@@ -125,8 +132,8 @@ void Joueur::supprimeCarteMain(string cardToDelete)
                            { return dynamic_cast<Carte *>(carte) != nullptr && carte->getName() == cardToDelete; });
     if (it != this->hand.end())
     {
-        this->hand.erase(it);
         this->ajouteCarteDefausse(*it);
+        this->hand.erase(it);
         std::cout << "JUST AFTER" << std::endl;
         this->afficheDefause();
     }
@@ -142,7 +149,7 @@ void Joueur::supprimeCartePioche(string cardToDelete)
     }
 }
 
-void Joueur::acheteCarte(Carte *carte, int additionalMoney)
+bool Joueur::acheteCarte(Carte *carte, int additionalMoney)
 {
     if (this->money + additionalMoney >= carte->getPrice() && this->buyPoints >= 1)
     {
@@ -171,15 +178,18 @@ void Joueur::acheteCarte(Carte *carte, int additionalMoney)
         std::cout << "Vous venez d'acheter la carte " << carte->getName() << std::endl;
         std::cout << "Elle est désormais dans votre defausse\n"
                   << std::endl;
+        return true;
     }
     else if (this->money + additionalMoney < carte->getPrice())
     {
         std::cout << "Vous n'avez pas assez d'argent (💰) \n"
                   << std::endl;
+        return false;
     }
     else
         std::cout << "Vous n'avez plus de point d'achat (🪙 ) \n"
                   << std::endl;
+    return false;
 }
 
 void Joueur::ajouteCarteMain(Carte *carte)

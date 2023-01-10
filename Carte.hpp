@@ -12,6 +12,7 @@ private:
 protected:
 	string name;
 	int price;
+	int points = 0;
 
 public:
 	virtual void affiche() = 0; /* Ne pas oublier de la redéfinir dans les ss-classes pour qu'elles ne soient pas abstraites aussi */
@@ -21,6 +22,7 @@ public:
 	virtual int getPrice() { return price; };
 	virtual string getName() const { return name; };
 	virtual string getLowerCuttedName() const;
+	virtual int getPoints() { return points; };
 };
 
 #endif
