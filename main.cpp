@@ -829,9 +829,7 @@ int main()
                                                                 joueur_2->piocheCarte();
                                                                 joueur_2->piocheCarte();
                                                         }
-                                                        plateau->reserve[malediction]--;
                                                         joueur_2->setActions(joueur_2->getActions() - 1);
-                                                        std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
                                                         std::cin >> choix_J2;
