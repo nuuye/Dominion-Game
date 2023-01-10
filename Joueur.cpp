@@ -400,7 +400,8 @@ void Joueur::affichePioche()
  */
 void Joueur::piocheCarte()
 {
-    if(this->pioche.size() == 0){
+    if (this->pioche.size() == 0)
+    {
         this->defausseToPioche();
     }
     if (this->pioche.size() == 0)

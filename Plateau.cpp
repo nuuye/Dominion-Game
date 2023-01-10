@@ -4,7 +4,7 @@
 
 void Plateau::affichePlateau() const
 {
-    std::cout << "Le plateau possède les cartes suivantes : " << std::endl;
+    std::cout << "➡️ Le plateau possède les cartes suivantes : " << std::endl;
     for (const auto &keyValue : reserve)
     {
         std::cout << keyValue.first->getName() << " : " << keyValue.second << " | ";
