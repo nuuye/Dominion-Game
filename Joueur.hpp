@@ -12,7 +12,6 @@ private:
 	string name;
 	int actions;
 	int buyPoints;
-	int victoryPoints;
 	int money;
 	bool isMyTurn;
 	vector<Carte *> pioche;
@@ -24,12 +23,10 @@ public:
 
 	void setBuyPoints(int buyPoints);
 	void setActions(int actions);
-	void setVictoryPoints(int victoryPoints);
 	void setMoney(int money);
 	void setMyTurn(bool isMyTurn);
 
 	int getBuyPoints();
-	int getVictoryPoints();
 	int getActions();
 	int getMoney();
 	bool getTurn();
@@ -49,7 +46,7 @@ public:
 	void ajouteCarteDefausse(Carte *carte);
 	bool acheteCarte(Carte *carte, int additionalMoney);
 	void afficheCartes();
-	void afficheDefause();
+	void afficheDefausse();
 	void affichePioche();
 	void piocheCarte();
 	bool possedeCarte(string cardName);

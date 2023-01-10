@@ -7,14 +7,17 @@
 #include <algorithm>
 #include "CarteTresor.hpp"
 #include <typeinfo>
-#include "Plateau.hpp"
 #include <cctype>
 
+/**
+ * Constructeur.
+ * Fixe l'instant à une valeur précise.
+ * @param timemillis Millisecondes écoulées depuis le 1er janvier 1970
+ */
 Joueur::Joueur(string name)
 {
     this->name = name;
     this->actions = 1;
-    this->victoryPoints = 0;
     this->isMyTurn = false;
     this->buyPoints = 1;
 }
@@ -27,11 +30,6 @@ void Joueur::setBuyPoints(int buyPoints)
 void Joueur::setActions(int actions)
 {
     this->actions = actions;
-}
-
-void Joueur::setVictoryPoints(int victoryPoints)
-{
-    victoryPoints = victoryPoints;
 }
 
 void Joueur::setMoney(int money)
@@ -56,11 +54,6 @@ vector<Carte *> Joueur::getHand()
 vector<Carte *> Joueur::getDefausse()
 {
     return defausse;
-}
-
-int Joueur::getVictoryPoints()
-{
-    return victoryPoints;
 }
 
 int Joueur::getActions()
@@ -99,17 +92,8 @@ int Joueur::getVictoryPointsAmount()
     std::cout << "PIOCHE SIZE : " << this->getPiocheSize() << std::endl;
     for (int i = 0; i < this->getPiocheSize(); i++)
     {
-        count += 1;
-        //std::cout << "Points counter for each card" << pioche[i]->getName()<<" : " << pioche[i]->getPoints() << std::endl;
-        //count += pioche[i]->getPoints();
+        count += pioche[i]->getPoints();
     }
-    // if (typeid(carte) == typeid(CarteVictoire))
-    // {
-    //     count += carte->getPoints();
-    // }
-    // count += carte->getPoints();
-    // count += 1;
-
     return count;
 }
 
@@ -135,7 +119,7 @@ void Joueur::supprimeCarteMain(string cardToDelete)
         this->ajouteCarteDefausse(*it);
         this->hand.erase(it);
         std::cout << "JUST AFTER" << std::endl;
-        this->afficheDefause();
+        this->afficheDefausse();
     }
 }
 
@@ -236,18 +220,6 @@ void Joueur::ajouteCarteDefausse(Carte *carte)
     defausse.push_back(carte);
 }
 
-// void Joueur::ajouteCarteDefausse(string cardName){
-//     if(isupper(cardName[0])){
-//         cardName[0] = tolower(cardName[0]);
-//     }
-//     for(const auto& carte : hand){
-//         if(cardName == carte->getLowerCuttedName()){
-//             this->ajouteCarteDefausse(carte);
-
-//         }
-//     }
-// }
-
 void Joueur::afficheCartes()
 {
     for (const auto &carte : hand)
@@ -258,7 +230,7 @@ void Joueur::afficheCartes()
               << std::endl;
 }
 
-void Joueur::afficheDefause()
+void Joueur::afficheDefausse()
 {
     std::cout << "🧾 La défausse contient les cartes suivantes : " << std::endl;
     for (const auto &carte : defausse)

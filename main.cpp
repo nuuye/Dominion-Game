@@ -116,6 +116,7 @@ int main()
                         if (keyValue.second == 0)
                         {
                                 count += 1;
+                                std::cout << "COUNT : " << count << std::endl;
                         }
                 }
                 // début de la partie
@@ -124,9 +125,10 @@ int main()
                         std::cout << "                                                🕯️  La partie commence 🕯️ " << std::endl;
                         std::cout << "-------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
                         plateau->affichePlateau();
-                        
-                        std::cout << "PROVINCE POINTS : "<< province->getPoints() << std::endl;
-                        std::cout << "PROVINCE DUCHE : "<< duche->getPoints() << std::endl;
+
+                        std::cout << "PROVINCE POINTS : " << province->getPoints() << std::endl;
+                        std::cout << "PROVINCE DUCHE : " << duche->getPoints() << std::endl;
+                        std::cout << "PROVINCE CAVE : " << cave->getPoints() << std::endl;
 
                         std::cout << "Un nombre aléatoire est généré pour connaître le joueur qui commence :" << std::endl;
                         std::cout << "Le nombre généré est : " << joueurQuiCommence << std::endl;
@@ -160,7 +162,7 @@ int main()
                         }
                         std::cout << "➡️ (J1 🤴 ) Vous avez : " << std::endl;
                         joueur_1->afficheCartes();
-                        joueur_1->afficheDefause();
+                        joueur_1->afficheDefausse();
                         joueur_1->affichePioche();
                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_1->getBuyPoints() << "🪙 |" << joueur_1->getActions() << "💠|" << joueur_1->getMoney() << "💰)" << std::endl;
                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
@@ -591,7 +593,7 @@ int main()
                                                                         {
                                                                                 plateau->removeCard(keyValue.first);
                                                                         }
-                                                                        joueur_1->afficheDefause();
+                                                                        joueur_1->afficheDefausse();
                                                                         joueur_1->affichePioche();
                                                                         cardFound = true;
                                                                 }
@@ -648,7 +650,7 @@ int main()
                         }
                         std::cout << "➡️ (J2 🧙‍♂️ ) Vous avez : " << std::endl;
                         joueur_2->afficheCartes();
-                        joueur_2->afficheDefause();
+                        joueur_2->afficheDefausse();
                         joueur_2->affichePioche();
                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠|" << joueur_2->getMoney() << "💰)" << std::endl;
                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
@@ -806,7 +808,7 @@ int main()
                                                         // Pioche 3 cartes
                                                         // joueur_2->ajouteCarteDefausse(forgeron);
                                                         joueur_2->affichePioche();
-                                                        joueur_2->afficheDefause();
+                                                        joueur_2->afficheDefausse();
                                                         joueur_2->supprimeCarteMain(forgeron->getName());
                                                         for (int i = 0; i <= 2; i++)
                                                         {
@@ -1116,6 +1118,7 @@ int main()
                 }
 
                 nombreTour += 1;
+                count = 0;
                 joueur_1_Turn = !joueur_1_Turn;
                 joueur_2_Turn = !joueur_2_Turn;
                 joueur_1->setActions(1);
