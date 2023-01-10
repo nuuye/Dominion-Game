@@ -207,6 +207,17 @@ void Joueur::supprimeCarteMain(string cardToDelete)
     }
 }
 
+void Joueur::supprimeCarteJeu(string cardToDeleteInHand)
+{
+    // cardToDelete[0] = toupper(cardToDelete[0]);
+    auto it = std::find_if(this->hand.begin(), this->hand.end(), [cardToDeleteInHand](const auto &carte)
+                           { return dynamic_cast<Carte *>(carte) != nullptr && carte->getName() == cardToDeleteInHand; });
+    if (it != this->hand.end())
+    {
+        this->hand.erase(it);
+    }
+}
+
 /**
  * @brief fonction qui permet de supprimer une carte de la pioche
  *

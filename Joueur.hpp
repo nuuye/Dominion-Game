@@ -38,6 +38,7 @@ public:
 	int getVictoryPointsAmount();
 
 	void supprimeCarteMain(string CardToDelete);
+	void supprimeCarteJeu(string CardToDeleteInHand);
 	void supprimeCartePioche(string cardToDelete);
 	void defausseToPioche();
 	void HandToDefausse();

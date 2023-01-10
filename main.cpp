@@ -236,6 +236,7 @@ int main()
                                                         {
                                                                 joueur_1->piocheCarte();
                                                         }
+                                                        joueur_1->setActions(joueur_1->getActions() - 1);
                                                         std::cout << "➡️ Vous avez pioché " << numberToThrow << " carte(s)\n"
                                                                   << std::endl;
 
@@ -272,7 +273,7 @@ int main()
                                                                                 plateau->rebus.push_back(carte);
                                                                                 cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
                                                                                 cardToDelete[0] = toupper(cardToDelete[0]);
-                                                                                joueur_1->supprimeCarteMain(cardToDelete);
+                                                                                joueur_1->supprimeCarteJeu(cardToDelete);
                                                                                 cardFound = true;
                                                                                 cardPrice += carte->getPrice();
                                                                         }
@@ -396,7 +397,7 @@ int main()
                                                                                 cardPrice = carte->getPrice();
                                                                                 cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
                                                                                 cardToDelete[0] = toupper(cardToDelete[0]);
-                                                                                joueur_1->supprimeCarteMain(cardToDelete);
+                                                                                joueur_1->supprimeCarteJeu(cardToDelete);
                                                                                 cardFound = true;
                                                                         }
                                                                 }
@@ -500,7 +501,7 @@ int main()
                                                                                 plateau->rebus.push_back(carte);
                                                                                 cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
                                                                                 cardToDelete[0] = toupper(cardToDelete[0]);
-                                                                                joueur_1->supprimeCarteMain(cardToDelete);
+                                                                                joueur_1->supprimeCarteJeu(cardToDelete);
                                                                                 cardFound = true;
                                                                         }
                                                                 }
@@ -691,8 +692,6 @@ int main()
 
                                                 if (cardToPlay == cave->getLowerCuttedName() && joueur_2->possedeCarte(cave->getName()))
                                                 {
-                                                        // +1 Action et défausse autant de cartes / +1pioche par defausse
-                                                        // joueur_2->ajouteCarteDefausse(cave);
                                                         joueur_2->supprimeCarteMain(cave->getName());
                                                         std::cout << "➡️ Vous gagnez +1 Action et vous pouvez défausser autant de carte que vous voulez. Piochez une carte par carte défaussée" << std::endl;
                                                         int numberToThrow = 0;
@@ -745,6 +744,7 @@ int main()
                                                         {
                                                                 joueur_2->piocheCarte();
                                                         }
+                                                        joueur_2->setActions(joueur_2->getActions() - 1);
                                                         std::cout << "➡️ Vous avez pioché " << numberToThrow << " carte(s)\n"
                                                                   << std::endl;
 
@@ -780,7 +780,7 @@ int main()
                                                                                 plateau->rebus.push_back(carte);
                                                                                 cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
                                                                                 cardToDelete[0] = toupper(cardToDelete[0]);
-                                                                                joueur_2->supprimeCarteMain(cardToDelete);
+                                                                                joueur_2->supprimeCarteJeu(cardToDelete);
                                                                                 cardFound = true;
                                                                                 cardPrice += carte->getPrice();
                                                                         }
@@ -876,7 +876,6 @@ int main()
                                                 else if (cardToPlay == mine->getLowerCuttedName() && joueur_2->possedeCarte(mine->getName()))
                                                 {
                                                         // écarte une carte trésor de la main, reçoit une carte trésor valant jusqu'à +3. Ajoute cette carte à notre main
-                                                        // joueur_2->ajouteCarteDefausse(mine);
                                                         joueur_2->supprimeCarteMain(mine->getName());
                                                         int numberToDelete = 1;
                                                         int i = 0;
@@ -894,13 +893,15 @@ int main()
 
                                                                 for (const auto &carte : joueur_2->getHand())
                                                                 {
-                                                                        if (cardToDelete == carte->getLowerCuttedName() && (carte->getName() == "Cuivre(0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"))
+                                                                        // if (cardToDelete == carte->getLowerCuttedName() && (carte->getName()
+                                                                        //  == "Cuivre(0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"))
+                                                                        if (cardToDelete == carte->getLowerCuttedName() && typeid(carte) == typeid(CarteTresor))
                                                                         {
                                                                                 plateau->rebus.push_back(carte);
                                                                                 cardPrice = carte->getPrice();
                                                                                 cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
                                                                                 cardToDelete[0] = toupper(cardToDelete[0]);
-                                                                                joueur_2->supprimeCarteMain(cardToDelete);
+                                                                                joueur_2->supprimeCarteJeu(cardToDelete);
                                                                                 cardFound = true;
                                                                         }
                                                                 }
@@ -999,10 +1000,10 @@ int main()
                                                                 {
                                                                         if (cardToDelete == carte->getLowerCuttedName())
                                                                         {
-                                                                                plateau->rebus.push_back(carte);
                                                                                 cardToDelete = cardToDelete + " (" + to_string(carte->getPrice()) + "💰)";
                                                                                 cardToDelete[0] = toupper(cardToDelete[0]);
-                                                                                joueur_2->supprimeCarteMain(cardToDelete);
+                                                                                joueur_2->supprimeCarteJeu(cardToDelete);
+                                                                                plateau->rebus.push_back(carte);
                                                                                 cardFound = true;
                                                                         }
                                                                 }
