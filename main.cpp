@@ -188,10 +188,15 @@ int main()
                                                         int numberToThrow = 0;
                                                         int i = 0;
                                                         std::cout << "➡️ Vous possédez les cartes : " << std::endl;
+                                                        joueur_1->supprimeCarteMain(cave->getName());
                                                         joueur_1->afficheCartes();
                                                         std::cout << "➡️ Combien de cartes voulez vous défausser? " << std::endl;
                                                         std::cin >> numberToThrow;
-                                                        joueur_1->supprimeCarteMain(cave->getName());
+                                                        while (numberToThrow > joueur_1->getHandSize())
+                                                        {
+                                                                std::cout << "Vous ne possedez pas assez de cartes, veuillez rentrez un nouveau nombre" << std::endl;
+                                                                std::cin >> numberToThrow;
+                                                        }
                                                         while (i < numberToThrow)
                                                         {
                                                                 string cardToMove;
@@ -222,6 +227,10 @@ int main()
                                                                                   << std::endl;
                                                                 }
                                                                 i += 1;
+                                                        }
+                                                        if (joueur_1->getPiocheSize() < numberToThrow)
+                                                        {
+                                                                joueur_1->defausseToPioche();
                                                         }
                                                         for (int j; j < numberToThrow; j++)
                                                         {
@@ -323,10 +332,16 @@ int main()
                                                         // joueur_1->ajouteCarteDefausse(forgeron);
                                                         joueur_1->supprimeCarteMain(forgeron->getName());
 
+                                                        if (joueur_1->getPiocheSize() < 3)
+                                                        {
+                                                                joueur_1->defausseToPioche();
+                                                        }
+
                                                         for (int i; i <= 2; i++)
                                                         {
                                                                 joueur_1->piocheCarte();
                                                         }
+
                                                         joueur_1->setActions(joueur_1->getActions() - 1);
                                                         std::cout << "➡️ Vous possédez les cartes : " << std::endl;
                                                         joueur_1->afficheCartes();
@@ -442,7 +457,7 @@ int main()
                                                         // joueur_1->ajouteCarteDefausse(village);
                                                         joueur_1->supprimeCarteMain(village->getName());
 
-                                                        joueur_1->setActions(joueur_1->getActions() + 2);
+                                                        joueur_1->setActions(joueur_1->getActions() + 1);
                                                         std::cout << "➡️ Vous gagnez +1 Carte et +2💠 Actions" << std::endl;
                                                         joueur_1->piocheCarte();
                                                         std::cout << "➡️ Vous possédez les cartes : " << std::endl;
@@ -465,6 +480,11 @@ int main()
                                                         joueur_1->afficheCartes();
                                                         std::cout << "➡️ Combien de carte voulez vous écarter ? ";
                                                         std::cin >> numberToDelete;
+                                                        while (numberToDelete > 4 && numberToDelete > joueur_1->getHandSize())
+                                                        {
+                                                                std::cout << "❌ Vous ne pouvez pas écarter plus de 4 cartes ou vous n'avez pas assez de cartes" << std::endl;
+                                                                std::cin >> numberToDelete;
+                                                        }
                                                         while (i < numberToDelete)
                                                         {
                                                                 string cardToDelete;
@@ -525,7 +545,7 @@ int main()
                                                                 cardToGet[0] = tolower(cardToGet[0]);
                                                                 for (const auto &carte : plateau->reserve)
                                                                 {
-                                                                        if (cardToGet == carte.first->getLowerCuttedName())
+                                                                        if (cardToGet == carte.first->getLowerCuttedName() && carte.first->getPrice() <= 4)
                                                                         {
 
                                                                                 joueur_1->ajouteCarteDefausse(carte.first);
@@ -535,7 +555,7 @@ int main()
                                                                 }
                                                                 if (!cardFound)
                                                                 {
-                                                                        std::cout << "❌ La carte n'est pas dans la reserve ou est mal orthographiée. Veuillez réessayer" << std::endl;
+                                                                        std::cout << "❌ La carte n'est pas dans la reserve, est mal orthographiée ou coûte trop cher. Veuillez réessayer" << std::endl;
                                                                         i -= 1;
                                                                 }
                                                                 else
@@ -681,6 +701,11 @@ int main()
                                                         joueur_2->afficheCartes();
                                                         std::cout << "➡️ Combien de cartes voulez vous défausser? " << std::endl;
                                                         std::cin >> numberToThrow;
+                                                        while (numberToThrow > joueur_2->getHandSize())
+                                                        {
+                                                                std::cout << "Vous ne possedez pas assez de cartes, veuillez rentrez un nouveau nombre" << std::endl;
+                                                                std::cin >> numberToThrow;
+                                                        }
                                                         while (i < numberToThrow)
                                                         {
                                                                 string cardToMove;
@@ -711,6 +736,10 @@ int main()
                                                                                   << std::endl;
                                                                 }
                                                                 i += 1;
+                                                        }
+                                                        if (joueur_2->getPiocheSize() < numberToThrow)
+                                                        {
+                                                                joueur_2->defausseToPioche();
                                                         }
                                                         for (int j; j < numberToThrow; j++)
                                                         {
@@ -810,6 +839,12 @@ int main()
                                                         joueur_2->affichePioche();
                                                         joueur_2->afficheDefausse();
                                                         joueur_2->supprimeCarteMain(forgeron->getName());
+
+                                                        if (joueur_1->getPiocheSize() < 3)
+                                                        {
+                                                                joueur_1->defausseToPioche();
+                                                        }
+
                                                         for (int i = 0; i <= 2; i++)
                                                         {
                                                                 joueur_2->piocheCarte();
@@ -922,10 +957,10 @@ int main()
                                                 }
                                                 else if (cardToPlay == village->getLowerCuttedName() && joueur_2->possedeCarte(village->getName()))
                                                 {
-                                                        // Octroie 2 points d'action et 1 carte
+                                                        // Octroie 2 points d'action et 1 pioche une carte
                                                         // joueur_2->ajouteCarteDefausse(village);
                                                         joueur_2->supprimeCarteMain(village->getName());
-                                                        joueur_2->setActions(joueur_2->getActions() + 2);
+                                                        joueur_2->setActions(joueur_2->getActions() + 1);
                                                         std::cout << "➡️ Vous gagnez +1 Carte et +2💠 Actions" << std::endl;
                                                         joueur_2->piocheCarte();
                                                         std::cout << "➡️ Vous possédez les cartes : " << std::endl;
@@ -947,6 +982,11 @@ int main()
                                                         joueur_2->afficheCartes();
                                                         std::cout << "➡️ Combien de carte voulez vous écarter ? ";
                                                         std::cin >> numberToDelete;
+                                                        while (numberToDelete > 4 && numberToDelete > joueur_2->getHandSize())
+                                                        {
+                                                                std::cout << "❌ Vous ne pouvez pas écarter plus de 4 cartes" << std::endl;
+                                                                std::cin >> numberToDelete;
+                                                        }
                                                         while (i < numberToDelete)
                                                         {
                                                                 string cardToDelete;
@@ -1007,7 +1047,7 @@ int main()
                                                                 cardToGet[0] = tolower(cardToGet[0]);
                                                                 for (const auto &carte : plateau->reserve)
                                                                 {
-                                                                        if (cardToGet == carte.first->getLowerCuttedName())
+                                                                        if (cardToGet == carte.first->getLowerCuttedName() && carte.first->getPrice() <= 4)
                                                                         {
 
                                                                                 joueur_2->ajouteCarteDefausse(carte.first);
@@ -1017,7 +1057,7 @@ int main()
                                                                 }
                                                                 if (!cardFound)
                                                                 {
-                                                                        std::cout << "❌ La carte n'est pas dans la reserve ou est mal orthographiée. Veuillez réessayer" << std::endl;
+                                                                        std::cout << "❌ La carte n'est pas dans la reserve, est mal orthographiée ou coûte trop cher. Veuillez réessayer" << std::endl;
                                                                         i -= 1;
                                                                 }
                                                                 else

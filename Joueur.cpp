@@ -11,8 +11,8 @@
 
 /**
  * Constructeur.
- * Fixe l'instant à une valeur précise.
- * @param timemillis Millisecondes écoulées depuis le 1er janvier 1970
+ * Permet de créer un joueur en initialisant les attributs actions, isMyTurn et buyPoints automatiquement.
+ * @param name nom du joueur à créer
  */
 Joueur::Joueur(string name)
 {
@@ -22,70 +22,142 @@ Joueur::Joueur(string name)
     this->buyPoints = 1;
 }
 
+/**
+ * @brief Setter - set le nombre d'achat par tour
+ *
+ * @param buyPoints
+ */
 void Joueur::setBuyPoints(int buyPoints)
 {
     this->buyPoints = buyPoints;
 }
 
+/**
+ * @brief Setter - set le nombre d'action par tour
+ *
+ * @param actions
+ */
 void Joueur::setActions(int actions)
 {
     this->actions = actions;
 }
-
+/**
+ * @brief Setter - set le nombre d'argent du joueur
+ *
+ * @param money
+ */
 void Joueur::setMoney(int money)
 {
     money = money;
 }
 
+/**
+ * @brief Setter - permet de set le tour du jeu du joueur
+ *
+ * @param isMyTurn
+ */
 void Joueur::setMyTurn(bool isMyTurn)
 {
     this->isMyTurn = isMyTurn;
 }
 
+/**
+ * @brief getter - Permer de récupérer le nombre de points d'achats d'un joueur
+ *
+ * @return int
+ */
 int Joueur::getBuyPoints()
 {
     return buyPoints;
 }
+
+/**
+ * @brief getter - permet de récupérer la main d'un joueur
+ *
+ * @return vector<Carte *>
+ */
 vector<Carte *> Joueur::getHand()
 {
     return hand;
 }
 
+/**
+ * @brief getter - permet de récupérer la défausse d'un joueur
+ *
+ * @return vector<Carte *>
+ */
 vector<Carte *> Joueur::getDefausse()
 {
     return defausse;
 }
 
+/**
+ * @brief getter - permet de récupérér le nombre d'action d'un joueur
+ *
+ * @return int
+ */
 int Joueur::getActions()
 {
     return this->actions;
 }
 
+/**
+ * @brief getter - permet de récupérer l'argent d'un joueur
+ *
+ * @return int
+ */
 int Joueur::getMoney()
 {
     return money;
 }
 
+/**
+ * @brief permet de savoir si cette instance de joueur à le droit de jouer. Détermine le tour du joueur
+ *
+ * @return true
+ * @return false
+ */
 bool Joueur::getTurn()
 {
     return this->isMyTurn;
 }
 
+/**
+ * @brief getter - permet de récupérer la taille de la pioche
+ *
+ * @return int
+ */
 int Joueur::getPiocheSize()
 {
     return this->pioche.size();
 }
 
+/**
+ * @brief getter - permet de récupérer la taille de la main
+ *
+ * @return int
+ */
 int Joueur::getHandSize()
 {
     return this->hand.size();
 }
 
+/**
+ * @brief getter - permet de récupérere la taille de la défausse
+ *
+ * @return int
+ */
 int Joueur::getDefausseSize()
 {
     return this->defausse.size();
 }
 
+/**
+ * @brief getter - permet de récupérer le nombre total de points de victoire contenu dans la pioche
+ * La fonction est utilisé en fin de partie lorsque le joueur met toute ses cartes dans sa pioche pour faire le compte
+ *
+ * @return int
+ */
 int Joueur::getVictoryPointsAmount()
 {
     int count = 0;
@@ -97,6 +169,13 @@ int Joueur::getVictoryPointsAmount()
     return count;
 }
 
+/**
+ * @brief fonction qui permet de vérifier si un joueur possède une carte donnée
+ *
+ * @param cardName
+ * @return true
+ * @return false
+ */
 bool Joueur::possedeCarte(string cardName)
 {
     bool contain = false;
@@ -109,6 +188,12 @@ bool Joueur::possedeCarte(string cardName)
     }
     return contain;
 }
+
+/**
+ * @brief fonction qui permet de supprimer une carte de la main, la carte est placée dans la défausse
+ *
+ * @param cardToDelete
+ */
 void Joueur::supprimeCarteMain(string cardToDelete)
 {
     // cardToDelete[0] = toupper(cardToDelete[0]);
@@ -118,11 +203,15 @@ void Joueur::supprimeCarteMain(string cardToDelete)
     {
         this->ajouteCarteDefausse(*it);
         this->hand.erase(it);
-        std::cout << "JUST AFTER" << std::endl;
         this->afficheDefausse();
     }
 }
 
+/**
+ * @brief fonction qui permet de supprimer une carte de la pioche
+ *
+ * @param cardToDelete
+ */
 void Joueur::supprimeCartePioche(string cardToDelete)
 {
     auto it = std::find_if(this->pioche.begin(), this->pioche.end(), [cardToDelete](const auto &carte)
@@ -133,6 +222,15 @@ void Joueur::supprimeCartePioche(string cardToDelete)
     }
 }
 
+/**
+ * @brief fonction qui permet d'acheter une carte, cette dernière est ensuite placée automatiquement dans la défausse.
+ * Le nombre d'achat durant le tour est décrémenté et l'argent du joueur également.
+ *
+ * @param carte
+ * @param additionalMoney
+ * @return true
+ * @return false
+ */
 bool Joueur::acheteCarte(Carte *carte, int additionalMoney)
 {
     if (this->money + additionalMoney >= carte->getPrice() && this->buyPoints >= 1)
@@ -176,16 +274,30 @@ bool Joueur::acheteCarte(Carte *carte, int additionalMoney)
     return false;
 }
 
+/**
+ * @brief fonction qui permet d'ajouter une carte dans la main du joueur
+ *
+ * @param carte
+ */
 void Joueur::ajouteCarteMain(Carte *carte)
 {
     hand.push_back(carte);
 }
 
+/**
+ * @brief fonction qui permet d'ajouter une carte dans la pioche
+ *
+ * @param carte
+ */
 void Joueur::ajouteCartePioche(Carte *carte)
 {
     pioche.push_back(carte);
 }
 
+/**
+ * @brief fonction qui permet de transférer les cartes de la main vers la défausse
+ *
+ */
 void Joueur::HandToDefausse()
 {
     for (const auto &carte : this->hand)
@@ -196,6 +308,10 @@ void Joueur::HandToDefausse()
     this->money = 0;
 }
 
+/**
+ * @brief fonction qui permet de transferer les cartes de la défausse vers la pioche
+ *
+ */
 void Joueur::defausseToPioche()
 {
     if (pioche.size() == 0)
@@ -215,11 +331,20 @@ void Joueur::defausseToPioche()
     }
 }
 
+/**
+ * @brief fonction qui permet d'ajouter une carte dans la défausse
+ *
+ * @param carte
+ */
 void Joueur::ajouteCarteDefausse(Carte *carte)
 {
     defausse.push_back(carte);
 }
 
+/**
+ * @brief fonction qui permet d'afficher les cartes du joueur
+ *
+ */
 void Joueur::afficheCartes()
 {
     for (const auto &carte : hand)
@@ -230,6 +355,10 @@ void Joueur::afficheCartes()
               << std::endl;
 }
 
+/**
+ * @brief fonction qui permet d'afficher les cartes de la défausse du joueur
+ *
+ */
 void Joueur::afficheDefausse()
 {
     std::cout << "🧾 La défausse contient les cartes suivantes : " << std::endl;
@@ -240,6 +369,10 @@ void Joueur::afficheDefausse()
     std::cout << std::endl;
 }
 
+/**
+ * @brief fonction qui permet d'afficher les cartes de la pioche du joueur
+ *
+ */
 void Joueur::affichePioche()
 {
     std::cout << "🧾 La pioche contient les cartes suivantes : " << std::endl;
@@ -250,6 +383,10 @@ void Joueur::affichePioche()
     std::cout << std::endl;
 }
 
+/**
+ * @brief fonction qui permet de piocher une carte de facon aléatoire
+ *
+ */
 void Joueur::piocheCarte()
 {
     std::random_device rd;
@@ -270,6 +407,5 @@ void Joueur::piocheCarte()
     {
         this->money += 3;
     }
-    // pioche.erase(pioche.begin() + indice);
     this->supprimeCartePioche(pioche[indice]->getName());
 }
