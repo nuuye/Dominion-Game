@@ -152,10 +152,10 @@ int main()
                         int additionalMoney = 0;
                         bool canReceiveFreeCard = false;
                         // si la pioche comporte moins de 5 cartes defausse=pioche
-                        if (joueur_1->getPiocheSize() < 5)
-                        {
-                                joueur_1->defausseToPioche();
-                        }
+                        // if (joueur_1->getPiocheSize() < 5)
+                        // {
+                        //         joueur_1->defausseToPioche();
+                        // }
                         for (int i = 0; i < 5; i++)
                         {
                                 joueur_1->piocheCarte();
@@ -228,17 +228,15 @@ int main()
                                                                 }
                                                                 i += 1;
                                                         }
-                                                        if (joueur_1->getPiocheSize() < numberToThrow)
-                                                        {
-                                                                joueur_1->defausseToPioche();
-                                                        }
-                                                        for (int j; j < numberToThrow; j++)
+                                                        // if (joueur_1->getPiocheSize() < numberToThrow)
+                                                        // {
+                                                        //         joueur_1->defausseToPioche();
+                                                        // }
+                                                        for (int j = 0; j < numberToThrow; j++)
                                                         {
                                                                 joueur_1->piocheCarte();
                                                         }
 
-                                                        joueur_1->setActions(joueur_1->getActions() - 1);
-                                                        
                                                         std::cout << "➡️ Vous avez pioché " << numberToThrow << " carte(s)\n"
                                                                   << std::endl;
 
@@ -302,12 +300,20 @@ int main()
                                                 {
                                                         // Ajoute une carte malédiction dans la défausse de l'adversaire
                                                         joueur_1->supprimeCarteMain(sorciere->getName());
-                                                        //ajoute la carte malédiction dans la défausse de l'ennemi
-                                                        joueur_2->ajouteCarteDefausse(malediction);
-                                                        
-                                                        plateau->reserve[malediction]--;
+                                                        if (plateau->reserve[malediction] > 0)
+                                                        {
+                                                                plateau->reserve[malediction]--;
+                                                                // ajoute la carte malédiction dans la défausse de l'ennemi
+                                                                joueur_2->ajouteCarteDefausse(malediction);
+                                                                std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
+                                                        }
+                                                        else
+                                                        {
+                                                                std::cout << "➡️ Il n'y a plus de carte malédiction dans la réserve, vous piochez 2 cartes" << std::endl;
+                                                                joueur_1->piocheCarte();
+                                                                joueur_1->piocheCarte();
+                                                        }
                                                         joueur_1->setActions(joueur_1->getActions() - 1);
-                                                        std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
                                                         std::cout << "➡️ Que voulez vous faire ? (" << joueur_1->getBuyPoints() << "🪙 |" << joueur_1->getActions() << "💠|" << joueur_1->getMoney() << "💰)" << std::endl;
                                                         std::cout << "💠 - Jouer une carte action : 1 | 🪙  - Faire un achat : 2 | 📜 - Ajustement, Fin de tour : 3" << std::endl;
                                                         std::cin >> choix_J1;
@@ -663,10 +669,10 @@ int main()
                 {
                         int additionalMoney = 0;
                         bool canReceiveFreeCard = false;
-                        if (joueur_2->getPiocheSize() < 5)
-                        {
-                                joueur_2->defausseToPioche();
-                        }
+                        // if (joueur_2->getPiocheSize() < 5)
+                        // {
+                        //         joueur_2->defausseToPioche();
+                        // }
                         for (int i = 0; i < 5; i++)
                         {
                                 joueur_2->piocheCarte();
@@ -738,16 +744,14 @@ int main()
                                                                 }
                                                                 i += 1;
                                                         }
-                                                        if (joueur_2->getPiocheSize() < numberToThrow)
-                                                        {
-                                                                joueur_2->defausseToPioche();
-                                                        }
-                                                        for (int j; j < numberToThrow; j++)
+                                                        // if (joueur_2->getPiocheSize() < numberToThrow)
+                                                        // {
+                                                        //         joueur_2->defausseToPioche();
+                                                        // }
+                                                        for (int j = 0; j < numberToThrow; j++)
                                                         {
                                                                 joueur_2->piocheCarte();
                                                         }
-
-                                                        joueur_2->setActions(joueur_2->getActions() - 1);
 
                                                         std::cout << "➡️ Vous avez pioché " << numberToThrow << " carte(s)\n"
                                                                   << std::endl;
@@ -812,7 +816,19 @@ int main()
                                                         // Ajoute une carte malédiction dans la défausse de l'adversaire
                                                         // joueur_2->ajouteCarteDefausse(sorciere);
                                                         joueur_2->supprimeCarteMain(sorciere->getName());
-                                                        joueur_1->ajouteCarteDefausse(malediction);
+                                                        if (plateau->reserve[malediction] > 0)
+                                                        {
+                                                                plateau->reserve[malediction]--;
+                                                                // ajoute la carte malédiction dans la défausse de l'ennemi
+                                                                joueur_1->ajouteCarteDefausse(malediction);
+                                                                std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
+                                                        }
+                                                        else
+                                                        {
+                                                                std::cout << "➡️ Il n'y a plus de carte malédiction dans la réserve, vous piochez 2 cartes" << std::endl;
+                                                                joueur_2->piocheCarte();
+                                                                joueur_2->piocheCarte();
+                                                        }
                                                         plateau->reserve[malediction]--;
                                                         joueur_2->setActions(joueur_2->getActions() - 1);
                                                         std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;

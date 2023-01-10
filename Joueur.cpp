@@ -400,23 +400,33 @@ void Joueur::affichePioche()
  */
 void Joueur::piocheCarte()
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, pioche.size() - 1);
-    int indice = dis(gen);
-    std::cout << "🖲️  Vous avez pioché : " << pioche[indice]->getName() << std::endl;
-    hand.push_back(pioche[indice]);
-    if (pioche[indice]->getName() == "Cuivre (0💰)")
-    {
-        this->money += 1;
+    if(this->pioche.size() == 0){
+        this->defausseToPioche();
     }
-    else if (pioche[indice]->getName() == "Argent (3💰)")
+    if (this->pioche.size() == 0)
     {
-        this->money += 2;
+        std::cout << "❌ Vous n'avez plus de carte dans la pioche ni dans la défausse" << std::endl;
     }
-    else if (pioche[indice]->getName() == "Or (6💰)")
+    else
     {
-        this->money += 3;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, pioche.size() - 1);
+        int indice = dis(gen);
+        std::cout << "🖲️  Vous avez pioché : " << pioche[indice]->getName() << std::endl;
+        hand.push_back(pioche[indice]);
+        if (pioche[indice]->getName() == "Cuivre (0💰)")
+        {
+            this->money += 1;
+        }
+        else if (pioche[indice]->getName() == "Argent (3💰)")
+        {
+            this->money += 2;
+        }
+        else if (pioche[indice]->getName() == "Or (6💰)")
+        {
+            this->money += 3;
+        }
+        this->supprimeCartePioche(pioche[indice]->getName());
     }
-    this->supprimeCartePioche(pioche[indice]->getName());
 }
