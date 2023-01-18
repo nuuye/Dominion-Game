@@ -2,10 +2,16 @@
 #define __Joueur_hpp
 #include <iostream>
 #include "Carte.hpp"
+#include "CarteTresor.hpp"
 #include <string>
 #include <vector>
 using namespace std;
 
+/**
+ * @brief La classe Joueur représente un joueur dans la partie
+ * Ce dernier possède plusieurs pile de carte comme sa pioche, main ou sa défausse
+ *
+ */
 class Joueur
 {
 private:
@@ -34,6 +40,7 @@ public:
 	int getHandSize();
 	int getDefausseSize();
 	vector<Carte *> getHand();
+	vector<CarteTresor *> getHandTresor();
 	vector<Carte *> getDefausse();
 	int getVictoryPointsAmount();
 
@@ -51,6 +58,7 @@ public:
 	void affichePioche();
 	void piocheCarte();
 	bool possedeCarte(string cardName);
+	bool hasTresorCard(vector<Carte *>); // a rajouter UML
 };
 
 #endif

@@ -48,7 +48,7 @@ void Joueur::setActions(int actions)
  */
 void Joueur::setMoney(int money)
 {
-    money = money;
+    this->money = money;
 }
 
 /**
@@ -81,6 +81,19 @@ vector<Carte *> Joueur::getHand()
     return hand;
 }
 
+vector<CarteTresor *> Joueur::getHandTresor()
+{
+    vector<CarteTresor *> tresorList;
+    for (const auto &carte : hand)
+    {
+        if (carte->getName() == "Cuivre (0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)")
+        {
+            tresorList.push_back(static_cast<CarteTresor *>(carte));
+        }
+    }
+    return tresorList;
+}
+
 /**
  * @brief getter - permet de récupérer la défausse d'un joueur
  *
@@ -108,7 +121,7 @@ int Joueur::getActions()
  */
 int Joueur::getMoney()
 {
-    return money;
+    return this->money;
 }
 
 /**
@@ -430,4 +443,19 @@ void Joueur::piocheCarte()
         }
         this->supprimeCartePioche(pioche[indice]->getName());
     }
+}
+/**
+ * @brief fonction qui vérifie si le joueur possède une carte trésor dans sa main
+ * 
+ * @return true 
+ * @return false 
+ */
+bool Joueur::hasTresorCard(vector<Carte *>){
+    bool hasTresorCard = false;
+    for(const auto& carte : hand){
+        if(carte->getName() == "Cuivre (0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"){
+            hasTresorCard = true;
+        }
+    }
+    return hasTresorCard;
 }

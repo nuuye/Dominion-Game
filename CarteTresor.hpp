@@ -3,6 +3,11 @@
 #include <iostream>
 #include "Carte.hpp"
 
+/**
+ * @brief classe qui hérite de carte.
+ * Les cartes tresors sont des cartes qui permettent l'achat d'autres cartes. 
+ * 
+ */
 class CarteTresor : public Carte
 {
 private:

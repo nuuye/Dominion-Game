@@ -7,6 +7,12 @@ class Carte;
 //     std::cout << "";
 // }
 
+/**
+ * @brief Constructeur d'une carte royaume
+ *
+ * @param name
+ * @param price
+ */
 CarteRoyaume::CarteRoyaume(string name, int price) : Carte(price)
 {
     this->name = name;

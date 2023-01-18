@@ -2,6 +2,10 @@
 #include "Plateau.hpp"
 #include "CarteRoyaume.hpp"
 
+/**
+ * @brief fonction qui permet d'afficher les cartes de la reserve ainsi que leurs quantités
+ * 
+ */
 void Plateau::affichePlateau() const
 {
     std::cout << "➡️ Le plateau possède les cartes suivantes : " << std::endl;
@@ -13,6 +17,12 @@ void Plateau::affichePlateau() const
               << std::endl;
 }
 
+/**
+ * @brief fonction qui permet de supprimer une carte de la réserve.
+ * La pile de la carte en question est alors décrémentée de 1
+ * 
+ * @param carte 
+ */
 void Plateau::removeCard(Carte *carte)
 {
     for (const auto &keyValue : reserve)
@@ -22,17 +32,4 @@ void Plateau::removeCard(Carte *carte)
             reserve[keyValue.first] = keyValue.second - 1;
         }
     }
-}
-
-bool Plateau::isInReserve(string cardName)
-{
-    bool isInReserve = false;
-    for (const auto &carte : reserve)
-    {
-        if (cardName == carte.first->getName())
-        {
-            isInReserve = true;
-        }
-    }
-    return isInReserve;
 }
