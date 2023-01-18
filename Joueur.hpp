@@ -26,7 +26,7 @@ private:
 
 public:
 	Joueur(string name);
-
+	~Joueur(){delete this};
 	void setBuyPoints(int buyPoints);
 	void setActions(int actions);
 	void setMoney(int money);
@@ -52,7 +52,7 @@ public:
 	void ajouteCarteMain(Carte *carte);
 	void ajouteCartePioche(Carte *carte);
 	void ajouteCarteDefausse(Carte *carte);
-	bool acheteCarte(Carte *carte, int additionalMoney);
+	bool acheteCarte(Carte *carte);
 	void afficheCartes();
 	void afficheDefausse();
 	void affichePioche();

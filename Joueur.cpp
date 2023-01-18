@@ -251,18 +251,17 @@ void Joueur::supprimeCartePioche(string cardToDelete)
  * Le nombre d'achat durant le tour est décrémenté et l'argent du joueur également.
  *
  * @param carte
- * @param additionalMoney
  * @return true
  * @return false
  */
-bool Joueur::acheteCarte(Carte *carte, int additionalMoney)
+bool Joueur::acheteCarte(Carte *carte)
 {
-    if (this->money + additionalMoney >= carte->getPrice() && this->buyPoints >= 1)
+    if (this->money >= carte->getPrice() && this->buyPoints >= 1)
     {
         this->defausse.push_back(carte);
         this->buyPoints -= 1;
-        this->money -= (carte->getPrice() - additionalMoney);
-        int cardPriceCounter = carte->getPrice() - additionalMoney;
+        this->money -= carte->getPrice();
+        int cardPriceCounter = carte->getPrice();
         while (cardPriceCounter != 0)
         {
             if (cardPriceCounter >= 3 && this->possedeCarte("Or (6💰)"))
@@ -286,14 +285,14 @@ bool Joueur::acheteCarte(Carte *carte, int additionalMoney)
                   << std::endl;
         return true;
     }
-    else if (this->money + additionalMoney < carte->getPrice())
+    else if (this->money < carte->getPrice())
     {
-        std::cout << "Vous n'avez pas assez d'argent (💰) \n"
+        std::cout << "❌ Vous n'avez pas assez d'argent (💰) \n"
                   << std::endl;
         return false;
     }
     else
-        std::cout << "Vous n'avez plus de point d'achat (🪙 ) \n"
+        std::cout << "❌ Vous n'avez plus de point d'achat (🪙 ) \n"
                   << std::endl;
     return false;
 }
@@ -446,14 +445,17 @@ void Joueur::piocheCarte()
 }
 /**
  * @brief fonction qui vérifie si le joueur possède une carte trésor dans sa main
- * 
- * @return true 
- * @return false 
+ *
+ * @return true
+ * @return false
  */
-bool Joueur::hasTresorCard(vector<Carte *>){
+bool Joueur::hasTresorCard(vector<Carte *>)
+{
     bool hasTresorCard = false;
-    for(const auto& carte : hand){
-        if(carte->getName() == "Cuivre (0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"){
+    for (const auto &carte : hand)
+    {
+        if (carte->getName() == "Cuivre (0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)")
+        {
             hasTresorCard = true;
         }
     }

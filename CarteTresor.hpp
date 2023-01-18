@@ -5,8 +5,8 @@
 
 /**
  * @brief classe qui hérite de carte.
- * Les cartes tresors sont des cartes qui permettent l'achat d'autres cartes. 
- * 
+ * Les cartes tresors sont des cartes qui permettent l'achat d'autres cartes.
+ *
  */
 class CarteTresor : public Carte
 {
@@ -16,10 +16,10 @@ private:
 public:
 	void affiche() override { std::cout << ""; };
 	CarteTresor(string name, int valeur, int price);
-	virtual ~CarteTresor(){};
+	~CarteTresor(){delete this};
 	int getValeur();
-	//string getName() const  { return name; };
-	//int getPrice() override { return price; };
+	// string getName() const  { return name; };
+	// int getPrice() override { return price; };
 };
 
 #endif
