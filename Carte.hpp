@@ -18,19 +18,19 @@ private:
 protected:
 	string name;
 	int price;
-	int points = 0; //pour les cartes victoires
-	//int valeur = 0; //pour les cartes tresors
+	int points = 0; // pour les cartes victoires
+	// int valeur = 0; //pour les cartes tresors
 
 public:
 	virtual void affiche() = 0; /* Ne pas oublier de la redéfinir dans les ss-classes pour qu'elles ne soient pas abstraites aussi */
 	Carte(string name, int price);
 	Carte(int price);
-	virtual ~Carte() { delete this; };
+	virtual ~Carte(){};
 	virtual int getPrice() { return price; };
 	virtual string getName() const { return name; };
 	virtual string getLowerCuttedName() const;
 	virtual int getPoints() { return points; };
-	//virtual int getValeur() { return valeur; };
+	// virtual int getValeur() { return valeur; };
 };
 
 #endif

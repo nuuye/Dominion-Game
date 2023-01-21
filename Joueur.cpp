@@ -207,27 +207,18 @@ bool Joueur::possedeCarte(string cardName)
  *
  * @param cardToDelete
  */
-void Joueur::supprimeCarteMain(string cardToDelete)
+void Joueur::supprimeCarteMain(string cardToDelete, bool deleteCompletly)
 {
-    // cardToDelete[0] = toupper(cardToDelete[0]);
     auto it = std::find_if(this->hand.begin(), this->hand.end(), [cardToDelete](const auto &carte)
                            { return dynamic_cast<Carte *>(carte) != nullptr && carte->getName() == cardToDelete; });
     if (it != this->hand.end())
     {
-        this->ajouteCarteDefausse(*it);
-        this->hand.erase(it);
-        this->afficheDefausse();
-    }
-}
-
-void Joueur::supprimeCarteJeu(string cardToDeleteInHand)
-{
-    // cardToDelete[0] = toupper(cardToDelete[0]);
-    auto it = std::find_if(this->hand.begin(), this->hand.end(), [cardToDeleteInHand](const auto &carte)
-                           { return dynamic_cast<Carte *>(carte) != nullptr && carte->getName() == cardToDeleteInHand; });
-    if (it != this->hand.end())
-    {
-        this->hand.erase(it);
+        if (!deleteCompletly)
+        {
+            this->ajouteCarteDefausse(*it);
+        }
+        else
+            this->hand.erase(it);
     }
 }
 

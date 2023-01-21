@@ -26,7 +26,7 @@ private:
 
 public:
 	Joueur(string name);
-	~Joueur(){delete this};
+	~Joueur(){};
 	void setBuyPoints(int buyPoints);
 	void setActions(int actions);
 	void setMoney(int money);
@@ -44,8 +44,7 @@ public:
 	vector<Carte *> getDefausse();
 	int getVictoryPointsAmount();
 
-	void supprimeCarteMain(string CardToDelete);
-	void supprimeCarteJeu(string CardToDeleteInHand);
+	void supprimeCarteMain(string CardToDelete, bool deleteCompletly);
 	void supprimeCartePioche(string cardToDelete);
 	void defausseToPioche();
 	void HandToDefausse();
@@ -58,7 +57,7 @@ public:
 	void affichePioche();
 	void piocheCarte();
 	bool possedeCarte(string cardName);
-	bool hasTresorCard(vector<Carte *>); // a rajouter UML
+	bool hasTresorCard(vector<Carte *>);
 };
 
 #endif

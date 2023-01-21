@@ -2,10 +2,6 @@
 #include "CarteRoyaume.hpp"
 #include "Carte.hpp"
 class Carte;
-// void CarteRoyaume::affiche() override
-// {
-//     std::cout << "";
-// }
 
 /**
  * @brief Constructeur d'une carte royaume

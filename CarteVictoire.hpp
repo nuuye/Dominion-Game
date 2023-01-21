@@ -16,11 +16,7 @@ private:
 public:
 	void affiche() override { std::cout << ""; };
 	CarteVictoire(string name, int points, int price);
-	~CarteVictoire(){delete this};
-
-	//int getPoints() override { return points; };
-	// string getName() const override { return name; };
-	// int getPrice() override { return price; };
+	~CarteVictoire(){};
 };
 
 #endif

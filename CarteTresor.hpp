@@ -16,7 +16,7 @@ private:
 public:
 	void affiche() override { std::cout << ""; };
 	CarteTresor(string name, int valeur, int price);
-	~CarteTresor(){delete this};
+	~CarteTresor(){};
 	int getValeur();
 	// string getName() const  { return name; };
 	// int getPrice() override { return price; };
