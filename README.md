@@ -9,8 +9,8 @@ In order to run the project you have to :
 * Navigate in that folder with the command prompt
 * Once in the folder write "make" then "./main" to launch the program
 * The game is now launched, follow instructions to play.
-
-* ⚠️ when asked to enter a card Name, you need to respect accents.
+###
+* ⚠️ when asked to enter a card name, you need to respect accents.
 * Capital letter on first letter is not mandatory.
 
 ## Technologies used
