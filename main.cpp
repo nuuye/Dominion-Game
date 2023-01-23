@@ -31,7 +31,7 @@ int main()
         CarteRoyaume *marche = new CarteRoyaume("Marché (5💰)", 5);
         CarteRoyaume *forgeron = new CarteRoyaume("Forgeron (4💰)", 4);
         CarteRoyaume *bucheron = new CarteRoyaume("Bûcheron (3💰)", 3);
-        CarteRoyaume *mine = new CarteRoyaume("Mine (5💰)", 1);
+        CarteRoyaume *mine = new CarteRoyaume("Mine (5💰)", 5);
         CarteRoyaume *village = new CarteRoyaume("Village (3💰)", 3);
         CarteRoyaume *chapelle = new CarteRoyaume("Chapelle (2💰)", 2);
         CarteRoyaume *atelier = new CarteRoyaume("Atelier (3💰)", 3);
@@ -330,6 +330,9 @@ int main()
                                                                 // ajoute la carte malédiction dans la défausse de l'ennemi
                                                                 joueur_2->ajouteCarteDefausse(malediction);
                                                                 std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
+                                                                joueur_1->piocheCarte();
+                                                                joueur_1->piocheCarte();
+                                                                std::cout << "➡️ Vous avez pioché 2 cartes" << std::endl;
                                                         }
                                                         else
                                                         {
@@ -865,6 +868,9 @@ int main()
                                                                 // ajoute la carte malédiction dans la défausse de l'ennemi
                                                                 joueur_1->ajouteCarteDefausse(malediction);
                                                                 std::cout << "➡️ Une carte malédiction a été placé dans la défausse de votre/vos adversaire(s)" << std::endl;
+                                                                joueur_2->piocheCarte();
+                                                                joueur_2->piocheCarte();
+                                                                std::cout << "➡️ Vous avez pioché 2 cartes" << std::endl;
                                                         }
                                                         else
                                                         {
