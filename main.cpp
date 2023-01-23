@@ -12,6 +12,11 @@
 #include <cctype>
 #include <typeinfo>
 
+/**
+ * @brief fonction qui permet de demander au joueur quelle action effectuer
+ *
+ * @param joueur
+ */
 void choice(Joueur *joueur)
 {
         std::cout << "➡️ Que voulez vous faire ? (" << joueur->getBuyPoints() << "🪙 |" << joueur->getActions() << "💠|" << joueur->getMoney() << "💰)" << std::endl;
@@ -54,7 +59,7 @@ int main()
         plateau->reserve[village] = 5;
         plateau->reserve[chapelle] = 1;
         plateau->reserve[atelier] = 5;
-        // 8 cartes victoire par type et pour 2 joueurs
+
         plateau->reserve[domaine] = 8;
         plateau->reserve[duche] = 8;
         plateau->reserve[province] = 8;
@@ -1254,8 +1259,8 @@ int main()
                         std::cout << "Il y a égalité 🎌" << std::endl;
                 }
         }
-        
-        //delete all variables
+
+        // delete all variables
         delete cave;
         delete renovation;
         delete sorciere;

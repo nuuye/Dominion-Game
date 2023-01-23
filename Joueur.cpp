@@ -257,17 +257,17 @@ bool Joueur::acheteCarte(Carte *carte)
         {
             if (cardPriceCounter >= 3 && this->possedeCarte("Or (6💰)"))
             {
-                this->supprimeCarteMain("Or (6💰)");
+                this->supprimeCarteMain("Or (6💰)", false);
                 cardPriceCounter -= 3;
             }
-            else if (cardPriceCounter >= 2 && this->possedeCarte("Argent (3💰)"))
+            else if (cardPriceCounter >= 2 && this->possedeCarte("Argent (3💰)"), false)
             {
-                this->supprimeCarteMain("Argent (3💰)");
+                this->supprimeCarteMain("Argent (3💰)", false);
                 cardPriceCounter -= 2;
             }
             else
             {
-                this->supprimeCarteMain("Cuivre (0💰)");
+                this->supprimeCarteMain("Cuivre (0💰)", false);
                 cardPriceCounter -= 1;
             }
         }
