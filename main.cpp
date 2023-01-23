@@ -49,15 +49,15 @@ int main()
         Joueur *joueur_2 = new Joueur("Joueur 2");
 
         Plateau *plateau = new Plateau();
-        plateau->reserve[cave] = 1;
+        plateau->reserve[cave] = 5;
         plateau->reserve[renovation] = 5;
         plateau->reserve[sorciere] = 5;
         plateau->reserve[marche] = 5;
         plateau->reserve[forgeron] = 5;
-        plateau->reserve[bucheron] = 1;
+        plateau->reserve[bucheron] = 5;
         plateau->reserve[mine] = 5;
         plateau->reserve[village] = 5;
-        plateau->reserve[chapelle] = 1;
+        plateau->reserve[chapelle] = 5;
         plateau->reserve[atelier] = 5;
 
         plateau->reserve[domaine] = 8;
@@ -123,7 +123,6 @@ int main()
                         if (keyValue.second == 0)
                         {
                                 count += 1;
-                                std::cout << "COUNT : " << count << std::endl;
                         }
                 }
                 // début de la partie
@@ -158,8 +157,6 @@ int main()
                         }
                         std::cout << "➡️ (J1 🤴 ) Vous avez : " << std::endl;
                         joueur_1->afficheCartes();
-                        joueur_1->afficheDefausse();
-                        joueur_1->affichePioche();
                         choice(joueur_1);
                         std::cin >> choix_J1;
                         do
@@ -696,8 +693,6 @@ int main()
                         }
                         std::cout << "➡️ (J2 🧙‍♂️ ) Vous avez : " << std::endl;
                         joueur_2->afficheCartes();
-                        joueur_2->afficheDefausse();
-                        joueur_2->affichePioche();
                         choice(joueur_2);
                         std::cin >> choix_J2;
                         do
@@ -898,8 +893,6 @@ int main()
                                                 else if (cardToPlay == forgeron->getLowerCuttedName() && joueur_2->possedeCarte(forgeron->getName()))
                                                 {
                                                         // Pioche 3 cartes
-                                                        joueur_2->affichePioche();
-                                                        joueur_2->afficheDefausse();
                                                         joueur_2->supprimeCarteMain(forgeron->getName(), false);
 
                                                         if (joueur_1->getPiocheSize() < 3)
@@ -928,7 +921,6 @@ int main()
                                                                   << std::endl;
                                                         std::cout << "➡️ Vous possédez les cartes : " << std::endl;
                                                         joueur_2->afficheCartes();
-                                                        std::cout << "Vous avez : " << joueur_2->getMoney() << "💰| " << joueur_2->getBuyPoints() << "🪙 |" << joueur_2->getActions() << "💠" << std::endl;
                                                         choice(joueur_2);
                                                         std::cin >> choix_J2;
                                                 }
@@ -1163,7 +1155,6 @@ int main()
                                                 string cardInput;
                                                 bool cardFound = false;
                                                 std::cout << "➡️ Quelle carte voulez vous acheter ? " << std::endl;
-                                                std::cout.flush();
                                                 std::cin >> cardInput;
 
                                                 for (const auto &keyValue : plateau->reserve)
@@ -1220,11 +1211,14 @@ int main()
                                 joueur_2->HandToDefausse();
                         }
                 }
-
+                // on ajoute un tour de jeu
                 nombreTour += 1;
+                // compteur de pile épuisée qu'on remet à 0 - sera recalculé au début de tour
                 count = 0;
+                // on inverse les tours de jeu
                 joueur_1_Turn = !joueur_1_Turn;
                 joueur_2_Turn = !joueur_2_Turn;
+                // on remets les points d'actions et d'achats à 1 pour le prochain tour
                 joueur_1->setActions(1);
                 joueur_2->setActions(1);
                 joueur_1->setBuyPoints(1);
@@ -1239,7 +1233,6 @@ int main()
                 joueur_2->HandToDefausse();
                 joueur_1->defausseToPioche();
                 joueur_2->defausseToPioche();
-                std::cout << "TEST POINTS " << joueur_1->getVictoryPointsAmount() << std::endl;
                 std::cout << "🥁" << std::endl;
                 std::cout << "🥁" << std::endl;
                 std::cout << "🥁\n"
