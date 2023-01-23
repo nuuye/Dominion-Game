@@ -178,7 +178,6 @@ int main()
                                                 if (cardToPlay == cave->getLowerCuttedName() && joueur_1->possedeCarte(cave->getName()))
                                                 {
                                                         // +1 Action et défausse autant de cartes / +1pioche par defausse
-                                                        // joueur_1->ajouteCarteDefausse(cave);
                                                         std::cout << "➡️ Vous gagnez +1 Action et vous pouvez défausser autant de carte que vous voulez. Piochez une carte par carte défaussée" << std::endl;
                                                         int numberToThrow = 0;
                                                         int i = 0;
@@ -421,6 +420,7 @@ int main()
                                                                         {
                                                                                 if (cardToDelete == carte->getLowerCuttedName() && (carte->getName() == "Cuivre (0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"))
                                                                                 {
+                                                                                        // on utilise le static cast pour pouvoir utiliser la méthode getValeur de carteTresor, on a vérifié auparavant qu'il s'agissait bien d'une carte trésor.
                                                                                         handValue -= static_cast<CarteTresor *>(carte)->getValeur();
                                                                                         plateau->rebus.push_back(carte);
                                                                                         cardPrice = carte->getPrice();
@@ -462,6 +462,7 @@ int main()
                                                                                 {
 
                                                                                         joueur_1->ajouteCarteMain(carte.first);
+                                                                                        // on utilise le static cast pour pouvoir utiliser la méthode getValeur de carteTresor, on a vérifié auparavant qu'il s'agissait bien d'une carte trésor.
                                                                                         joueur_1->setMoney(joueur_1->getMoney() + static_cast<CarteTresor *>(carte.first)->getValeur());
                                                                                         plateau->removeCard(carte.first);
                                                                                         cardFound = true;
@@ -955,6 +956,7 @@ int main()
                                                                         {
                                                                                 if (cardToDelete == carte->getLowerCuttedName() && (carte->getName() == "Cuivre (0💰)" || carte->getName() == "Argent (3💰)" || carte->getName() == "Or (6💰)"))
                                                                                 {
+                                                                                        // on utilise le static cast pour pouvoir utiliser la méthode getValeur de carteTresor, on a vérifié auparavant qu'il s'agissait bien d'une carte trésor.
                                                                                         handValue -= static_cast<CarteTresor *>(carte)->getValeur();
                                                                                         plateau->rebus.push_back(carte);
                                                                                         cardPrice = carte->getPrice();
@@ -996,6 +998,7 @@ int main()
                                                                                 {
 
                                                                                         joueur_2->ajouteCarteMain(carte.first);
+                                                                                        // on utilise le static cast pour pouvoir utiliser la méthode getValeur de carteTresor, on a vérifié auparavant qu'il s'agissait bien d'une carte trésor.
                                                                                         joueur_2->setMoney(joueur_2->getMoney() + static_cast<CarteTresor *>(carte.first)->getValeur());
                                                                                         plateau->removeCard(carte.first);
                                                                                         cardFound = true;
