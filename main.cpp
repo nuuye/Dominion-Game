@@ -92,7 +92,6 @@ int main()
         joueur_2->ajouteCartePioche(domaine);
         joueur_2->ajouteCartePioche(domaine);
 
-        int count = 0;
         // On génère un nombre aléatoire pour savoir qui commence
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -114,19 +113,21 @@ int main()
         static string choix_J1;
         static string choix_J2;
 
+        int count = 0;
+
         // boucle de jeu
         while (count < 3 && plateau->reserve[province] > 0)
         {
+
+                count = 0;
                 // condition d'arrêt
                 for (const auto &keyValue : plateau->reserve)
                 {
                         if (keyValue.second <= 0)
                         {
                                 count += 1;
-                                std::cout << "COUNT : " << count << std::endl; //affiche 1 puis 2 puis 3 
                         }
                 }
-                std::cout << "REAL COUNT : " << count << std::endl; //affiche 3
                 // début de la partie
                 if (nombreTour == 1)
                 {
@@ -149,10 +150,13 @@ int main()
                                           << std::endl;
                         }
                 }
-
                 // Pioche 5 cartes aléatoire
                 if (joueur_1_Turn)
                 {
+                        if (count >= 3)
+                        {
+                                break;
+                        }
                         for (int i = 0; i < 5; i++)
                         {
                                 joueur_1->piocheCarte();
@@ -690,6 +694,10 @@ int main()
                 }
                 else
                 {
+                        if (count >= 3)
+                        {
+                                break;
+                        }
                         for (int i = 0; i < 5; i++)
                         {
                                 joueur_2->piocheCarte();
@@ -1161,6 +1169,7 @@ int main()
                                                 string cardInput;
                                                 bool cardFound = false;
                                                 std::cout << "➡️ Quelle carte voulez vous acheter ? " << std::endl;
+                                                std::cout.flush();
                                                 std::cin >> cardInput;
 
                                                 for (const auto &keyValue : plateau->reserve)
@@ -1220,7 +1229,6 @@ int main()
                 // on ajoute un tour de jeu
                 nombreTour += 1;
                 // compteur de pile épuisée qu'on remet à 0 - sera recalculé au début de tour
-                count = 0;
                 // on inverse les tours de jeu
                 joueur_1_Turn = !joueur_1_Turn;
                 joueur_2_Turn = !joueur_2_Turn;
