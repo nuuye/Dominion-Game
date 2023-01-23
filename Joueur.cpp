@@ -174,7 +174,6 @@ int Joueur::getDefausseSize()
 int Joueur::getVictoryPointsAmount()
 {
     int count = 0;
-    std::cout << "PIOCHE SIZE : " << this->getPiocheSize() << std::endl;
     for (int i = 0; i < this->getPiocheSize(); i++)
     {
         count += pioche[i]->getPoints();
@@ -217,8 +216,7 @@ void Joueur::supprimeCarteMain(string cardToDelete, bool deleteCompletly)
         {
             this->ajouteCarteDefausse(*it);
         }
-        else
-            this->hand.erase(it);
+        this->hand.erase(it);
     }
 }
 

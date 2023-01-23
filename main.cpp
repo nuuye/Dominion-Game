@@ -38,7 +38,7 @@ int main()
 
         CarteVictoire *domaine = new CarteVictoire("Domaine (2💰)", 1, 2);
         CarteVictoire *duche = new CarteVictoire("Duché (5💰)", 3, 5);
-        CarteVictoire *province = new CarteVictoire("Province (8💰)", 6, 8);
+        CarteVictoire *province = new CarteVictoire("Province (8💰)", 6, 1);
         CarteVictoire *malediction = new CarteVictoire("Malédiction (0💰)", -1, 0);
 
         CarteTresor *cuivre = new CarteTresor("Cuivre (0💰)", 1, 0);
@@ -49,20 +49,20 @@ int main()
         Joueur *joueur_2 = new Joueur("Joueur 2");
 
         Plateau *plateau = new Plateau();
-        plateau->reserve[cave] = 5;
-        plateau->reserve[renovation] = 5;
+        plateau->reserve[cave] = 1;
+        plateau->reserve[renovation] = 1;
         plateau->reserve[sorciere] = 5;
         plateau->reserve[marche] = 5;
         plateau->reserve[forgeron] = 5;
         plateau->reserve[bucheron] = 5;
         plateau->reserve[mine] = 5;
         plateau->reserve[village] = 5;
-        plateau->reserve[chapelle] = 5;
-        plateau->reserve[atelier] = 5;
+        plateau->reserve[chapelle] = 1;
+        plateau->reserve[atelier] = 1;
 
         plateau->reserve[domaine] = 8;
         plateau->reserve[duche] = 8;
-        plateau->reserve[province] = 8;
+        plateau->reserve[province] = 1;
 
         plateau->reserve[malediction] = 10;
 
@@ -120,11 +120,13 @@ int main()
                 // condition d'arrêt
                 for (const auto &keyValue : plateau->reserve)
                 {
-                        if (keyValue.second == 0)
+                        if (keyValue.second <= 0)
                         {
                                 count += 1;
+                                std::cout << "COUNT : " << count << std::endl; //affiche 1 puis 2 puis 3 
                         }
                 }
+                std::cout << "REAL COUNT : " << count << std::endl; //affiche 3
                 // début de la partie
                 if (nombreTour == 1)
                 {
@@ -289,7 +291,7 @@ int main()
                                                                         cardToGet[0] = tolower(cardToGet[0]);
                                                                         for (const auto &carte : plateau->reserve)
                                                                         {
-                                                                                if (cardToGet == carte.first->getLowerCuttedName() && carte.first->getPrice() <= cardPrice + 2)
+                                                                                if (cardToGet == carte.first->getLowerCuttedName() && carte.first->getPrice() <= cardPrice + 2 && carte.second > 0)
                                                                                 {
 
                                                                                         joueur_1->ajouteCarteDefausse(carte.first);
@@ -647,8 +649,6 @@ int main()
                                                                         {
                                                                                 plateau->removeCard(keyValue.first);
                                                                         }
-                                                                        joueur_1->afficheDefausse();
-                                                                        joueur_1->affichePioche();
                                                                         cardFound = true;
                                                                 }
                                                         }
@@ -827,7 +827,7 @@ int main()
                                                                         cardToGet[0] = tolower(cardToGet[0]);
                                                                         for (const auto &carte : plateau->reserve)
                                                                         {
-                                                                                if (cardToGet == carte.first->getLowerCuttedName() && carte.first->getPrice() <= cardPrice + 2)
+                                                                                if (cardToGet == carte.first->getLowerCuttedName() && carte.first->getPrice() <= cardPrice + 2 && carte.second > 0)
                                                                                 {
 
                                                                                         joueur_2->ajouteCarteDefausse(carte.first);

@@ -19,7 +19,6 @@ protected:
 	string name;
 	int price;
 	int points = 0; // pour les cartes victoires
-	// int valeur = 0; //pour les cartes tresors
 
 public:
 	virtual void affiche() = 0; /* Ne pas oublier de la redéfinir dans les ss-classes pour qu'elles ne soient pas abstraites aussi */
@@ -30,7 +29,6 @@ public:
 	virtual string getName() const { return name; };
 	virtual string getLowerCuttedName() const;
 	virtual int getPoints() { return points; };
-	// virtual int getValeur() { return valeur; };
 };
 
 #endif
