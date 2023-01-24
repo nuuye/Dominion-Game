@@ -28,7 +28,7 @@ public:
 	virtual int getPrice() { return price; };
 	virtual string getName() const { return name; };
 	virtual string getLowerCuttedName() const;
-	virtual int getPoints() { return points; };
+	virtual int getPoints() { return this->points; };
 };
 
 #endif

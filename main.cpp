@@ -118,7 +118,6 @@ int main()
         // boucle de jeu
         while (count < 3 && plateau->reserve[province] > 0)
         {
-
                 count = 0;
                 // condition d'arrêt
                 for (const auto &keyValue : plateau->reserve)
@@ -1228,7 +1227,6 @@ int main()
                 }
                 // on ajoute un tour de jeu
                 nombreTour += 1;
-                // compteur de pile épuisée qu'on remet à 0 - sera recalculé au début de tour
                 // on inverse les tours de jeu
                 joueur_1_Turn = !joueur_1_Turn;
                 joueur_2_Turn = !joueur_2_Turn;
@@ -1254,7 +1252,8 @@ int main()
 
                 std::cout << "Le joueur 1 🤴 possède : " << joueur_1->getVictoryPointsAmount() << "⚔️  point(s) de victoire(s).\n"
                           << std::endl;
-                std::cout << "Le joueur 2 🧙‍♂️ possède : " << joueur_2->getVictoryPointsAmount() << "⚔️  point(s) de victoire(s)." << std::endl;
+                std::cout << "Le joueur 2 🧙‍♂️ possède : " << joueur_2->getVictoryPointsAmount() << "⚔️  point(s) de victoire(s).\n"
+                          << std::endl;
 
                 if (joueur_1->getVictoryPointsAmount() > joueur_2->getVictoryPointsAmount())
                 {

@@ -5,14 +5,12 @@
 
 /**
  * @brief classe qui hérite de carte.
- * Les cartes Victoires sont des cartes qui permettent de gagner des points 
- * 
+ * Les cartes Victoires sont des cartes qui permettent de gagner des points
+ *
  */
 class CarteVictoire : public Carte
 {
 private:
-	int points;
-
 public:
 	void affiche() override { std::cout << ""; };
 	CarteVictoire(string name, int points, int price);
