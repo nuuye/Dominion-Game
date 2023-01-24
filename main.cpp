@@ -38,7 +38,7 @@ int main()
 
         CarteVictoire *domaine = new CarteVictoire("Domaine (2💰)", 1, 2);
         CarteVictoire *duche = new CarteVictoire("Duché (5💰)", 3, 5);
-        CarteVictoire *province = new CarteVictoire("Province (8💰)", 6, 1);
+        CarteVictoire *province = new CarteVictoire("Province (8💰)", 6, 8);
         CarteVictoire *malediction = new CarteVictoire("Malédiction (0💰)", -1, 0);
 
         CarteTresor *cuivre = new CarteTresor("Cuivre (0💰)", 1, 0);
@@ -49,20 +49,20 @@ int main()
         Joueur *joueur_2 = new Joueur("Joueur 2");
 
         Plateau *plateau = new Plateau();
-        plateau->reserve[cave] = 1;
-        plateau->reserve[renovation] = 1;
+        plateau->reserve[cave] = 5;
+        plateau->reserve[renovation] = 5;
         plateau->reserve[sorciere] = 5;
         plateau->reserve[marche] = 5;
         plateau->reserve[forgeron] = 5;
         plateau->reserve[bucheron] = 5;
         plateau->reserve[mine] = 5;
         plateau->reserve[village] = 5;
-        plateau->reserve[chapelle] = 1;
+        plateau->reserve[chapelle] = 5;
         plateau->reserve[atelier] = 5;
 
         plateau->reserve[domaine] = 8;
         plateau->reserve[duche] = 8;
-        plateau->reserve[province] = 1;
+        plateau->reserve[province] = 8;
 
         plateau->reserve[malediction] = 10;
 
