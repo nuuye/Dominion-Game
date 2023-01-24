@@ -18,8 +18,6 @@ public:
 	CarteTresor(string name, int valeur, int price);
 	~CarteTresor(){};
 	int getValeur();
-	// string getName() const  { return name; };
-	// int getPrice() override { return price; };
 };
 
 #endif

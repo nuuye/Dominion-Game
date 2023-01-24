@@ -12,6 +12,5 @@ class Carte;
 CarteRoyaume::CarteRoyaume(string name, int price) : Carte(price)
 {
     this->name = name;
-    this->price = price;
     this->points = 0;
 }

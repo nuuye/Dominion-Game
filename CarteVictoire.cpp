@@ -14,5 +14,4 @@ CarteVictoire::CarteVictoire(string name, int points, int price) : Carte(price)
 {
 	this->name = name;
 	this->points = points;
-	// this->price = price;
 }
