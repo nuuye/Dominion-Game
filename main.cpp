@@ -58,7 +58,7 @@ int main()
         plateau->reserve[mine] = 5;
         plateau->reserve[village] = 5;
         plateau->reserve[chapelle] = 1;
-        plateau->reserve[atelier] = 1;
+        plateau->reserve[atelier] = 5;
 
         plateau->reserve[domaine] = 8;
         plateau->reserve[duche] = 8;
