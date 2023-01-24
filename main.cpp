@@ -1246,8 +1246,9 @@ int main()
                 joueur_1->defausseToPioche();
                 joueur_2->defausseToPioche();
                 std::cout << "🥁" << std::endl;
+                std::cout << "   🥁" << std::endl;
                 std::cout << "🥁" << std::endl;
-                std::cout << "🥁\n"
+                std::cout << "   🥁\n"
                           << std::endl;
 
                 std::cout << "Le joueur 1 🤴 possède : " << joueur_1->getVictoryPointsAmount() << "⚔️  point(s) de victoire(s).\n"
